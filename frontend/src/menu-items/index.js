@@ -3,11 +3,12 @@
 import dashboard from './dashboard';
 import forms from './forms';
 import tabales from './tables';
+import pages from './pages';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard, forms, tabales]
+  items: [dashboard, tabales,pages]
 };
 
 export default menuItems;
