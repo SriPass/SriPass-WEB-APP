@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -25,13 +26,14 @@ function DriverTable() {
   const [editMode, setEditMode] = useState({});
   const [editedFields, setEditedFields] = useState({});
   const [loadData, setLoadData] = useState({});
+  const [loadNoOptions, setLoadNoOptions] = useState({});
 
   const key = 'updatable';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://15.156.146.25:8070/api/driver/all');
+        const response = await fetch('http://localhost:8070/api/driver/');
         if (!response.ok) {
           throw new Error('API request failed');
         }
@@ -42,9 +44,10 @@ function DriverTable() {
       }
     };
     fetchData();
+
     const fetchLoadData = async () => {
       try {
-        const response = await fetch('http://15.156.146.25:8070/api/load/all');
+        const response = await fetch('http://localhost:8070/api/load/all');
         if (!response.ok) {
           throw new Error('API request failed');
         }
@@ -87,7 +90,7 @@ function DriverTable() {
       try {
         const updatedRow = { ...editedRow, ...editedFields[rowId] };
 
-        const response = await fetch(`http://15.156.146.25:8070/api/driver/update/${rowId}`, {
+        const response = await fetch(`http://localhost:8070/api/driver/update/${rowId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -159,11 +162,12 @@ function DriverTable() {
     { id: 'name', label: 'Name' },
     { id: 'tel', label: 'Telephone' },
     { id: 'address', label: 'Address' },
-    { id: 'country', label: 'Country' },
-    { id: 'state_province', label: 'State Province' },
-    { id: 'licences', label: 'Licences' },
-    { id: 'email', label: 'Email' },
-    { id: 'load_no', label: 'Load No' },
+    // Add other fields as needed (e.g., 'country', 'state_province', 'licences', 'email', 'load_no')
+    { id: 'assignedRoute', label: 'AssignedRoute' },
+    { id: 'assignedVehicle', label: ' AssignedVehicle' },
+    // { id: 'licences', label: 'Licences' },
+    // { id: 'email', label: 'Email' },
+    // { id: 'load_no', label: 'Load No' },
     { id: 'actions', label: 'Actions' },
   ];
 
@@ -263,7 +267,7 @@ function DriverTable() {
                             onChange={(event, newValue) => {
                               handleEditFieldChange(row.driver_id, 'load_no', newValue?.load_no || '');
                             }}
-                            options={loadData.map((load) => ({ load_no: load.load_no }))}
+                            options={Object.values(loadNoOptions)}
                             getOptionLabel={(option) => option.load_no}
                             renderInput={(params) => (
                               <TextField
@@ -282,19 +286,16 @@ function DriverTable() {
                         )}
                       </span>
                     ) : (
-                      headCell.id === 'driver_id' ? (
-                        row[headCell.id] // Render Driver ID as non-editable
+                      // Render editable or non-editable fields based on editMode
+                      editMode[row.driver_id] ? (
+                        <TextField
+                          value={editedFields[row.driver_id]?.[headCell.id] || row[headCell.id]}
+                          onChange={(e) =>
+                            handleEditFieldChange(row.driver_id, headCell.id, e.target.value)
+                          }
+                        />
                       ) : (
-                        editMode[row.driver_id] ? (
-                          <TextField
-                            value={editedFields[row.driver_id]?.[headCell.id] || row[headCell.id]}
-                            onChange={(e) =>
-                              handleEditFieldChange(row.driver_id, headCell.id, e.target.value)
-                            }
-                          />
-                        ) : (
-                          row[headCell.id]
-                        )
+                        row[headCell.id]
                       )
                     )}
                   </TableCell>

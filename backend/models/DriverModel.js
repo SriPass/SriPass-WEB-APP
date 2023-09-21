@@ -21,6 +21,14 @@ const driverSchema = new mongoose.Schema({
     required: true,
   },
   // Add other fields as needed
+  assignedRoute: {
+    type: String, 
+    required: true, 
+  },
+  assignedVehicle: {
+    type: String, 
+    required: true, 
+  },
 });
 
 const Driver = mongoose.model('Driver', driverSchema);
