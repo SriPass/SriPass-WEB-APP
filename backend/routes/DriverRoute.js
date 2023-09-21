@@ -5,7 +5,7 @@ const router = express.Router();
 const Driver = require('../models/DriverModel'); // Import the Mongoose model
 
 // POST - Add a new driver
-router.post('/add', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const newDriver = new Driver(req.body);
     await newDriver.save();
@@ -17,7 +17,7 @@ router.post('/add', async (req, res) => {
 });
 
 // GET - Get all drivers
-router.get('/all', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const drivers = await Driver.find();
     res.json(drivers);
@@ -27,6 +27,37 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// Add routes for PUT, DELETE, and any other operations as needed
+// DELETE - Delete a driver by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const driverId = req.params.id;
+    const deletedDriver = await Driver.findByIdAndRemove(driverId);
+
+    if (!deletedDriver) {
+      return res.status(404).json({ error: 'Driver not found' });
+    }
+
+    res.json({ message: 'Driver deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  try {
+    const driverId = req.params.id;
+    const updatedDriver = await Driver.findByIdAndUpdate(driverId, req.body, { new: true });
+
+    if (!updatedDriver) {
+      return res.status(404).json({ error: 'Driver not found' });
+    }
+
+    res.json(updatedDriver);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 module.exports = router;
