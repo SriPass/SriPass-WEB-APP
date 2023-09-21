@@ -1,7 +1,6 @@
 // project import
 // import pages from './pages';
 import dashboard from './dashboard';
-import forms from './forms';
 import tabales from './tables';
 import pages from './pages';
 
