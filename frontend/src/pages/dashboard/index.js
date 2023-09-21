@@ -154,7 +154,7 @@ const DashboardDefault = () => {
           <Grid item />
         </Grid>
         <MainCard sx={{ mt: 2 }} content={false}>
-          <OrdersTable />
+          scac
         </MainCard>
       </Grid>
       <Grid item xs={12} md={5} lg={4}>
