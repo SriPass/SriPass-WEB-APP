@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
+import RoutePage from 'pages/extra-pages/RoutePage';
 
 
 // render
@@ -49,6 +50,10 @@ const MainRoutes = {
     {
       path: 'pay',
       element: <PayPage />
+    },
+    {
+      path: 'route',
+      element: <RoutePage />
     },
    
     //forms
