@@ -56,10 +56,10 @@ const tabales = {
       icon: icons.CarryOutOutlined,
     },
     {
-      id: 'shipper-page',
+      id: 'route-page',
       title: 'Route Management',
       type: 'item',
-      url: '/shipper',
+      url: '/route',
       icon: icons.ScheduleOutlined,
     },
     // New pages
