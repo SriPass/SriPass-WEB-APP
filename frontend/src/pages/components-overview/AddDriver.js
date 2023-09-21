@@ -63,7 +63,7 @@ const AddDriver = () => {
 
 
         try {
-            const addResponse = await fetch('http://15.156.146.25:8070/api/driver/add', { // Update API endpoint
+            const addResponse = await fetch('http://localhost:8070/api/driver/', { // Update API endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

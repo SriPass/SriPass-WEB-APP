@@ -25,8 +25,8 @@ function DriverTable() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [editMode, setEditMode] = useState({});
   const [editedFields, setEditedFields] = useState({});
-  const [loadData, setLoadData] = useState({});
-  const [loadNoOptions, setLoadNoOptions] = useState({});
+  // const [loadData, setLoadData] = useState({});
+  // const [loadNoOptions, setLoadNoOptions] = useState({});
 
   const key = 'updatable';
 
@@ -45,25 +45,25 @@ function DriverTable() {
     };
     fetchData();
 
-    const fetchLoadData = async () => {
-      try {
-        const response = await fetch('http://localhost:8070/api/load/all');
-        if (!response.ok) {
-          throw new Error('API request failed');
-        }
-        const data = await response.json();
-        setLoadData(data);
+    // const fetchLoadData = async () => {
+    //   try {
+    //     const response = await fetch('http://localhost:8070/api/load/all');
+    //     if (!response.ok) {
+    //       throw new Error('API request failed');
+    //     }
+    //     const data = await response.json();
+    //     setLoadData(data);
 
-        const options = {};
-        data.forEach((load) => {
-          options[load.load_no] = load;
-        });
-        setLoadNoOptions(options);
-      } catch (error) {
-        console.error('Error fetching load data:', error);
-      }
-    };
-    fetchLoadData();
+    //     const options = {};
+    //     data.forEach((load) => {
+    //       options[load.load_no] = load;
+    //     });
+    //     setLoadNoOptions(options);
+    //   } catch (error) {
+    //     console.error('Error fetching load data:', error);
+    //   }
+    // };
+    // fetchLoadData();
   }, []);
 
   const toggleEditMode = (rowId) => {
