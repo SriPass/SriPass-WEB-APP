@@ -10,13 +10,13 @@ import RoutePage from 'pages/extra-pages/RoutePage';
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const CustomerPage = Loadable(lazy(() => import('pages/extra-pages/CustomerPage')));
 const DriverPage = Loadable(lazy(() => import('pages/extra-pages/DriverPage')));
-const PayPage = Loadable(lazy(() => import('pages/extra-pages/PayPage')));
+
 
 
 // render - utilities
 const AddCustomer = Loadable(lazy(() => import('pages/components-overview/AddCustomer')));
 const AddDriver = Loadable(lazy(() => import('pages/components-overview/AddDriver')));
-const AddPay = Loadable(lazy(() => import('pages/components-overview/AddPay')));
+
 
 
 
@@ -47,10 +47,7 @@ const MainRoutes = {
       path: 'driver',
       element: <DriverPage />
     },
-    {
-      path: 'pay',
-      element: <PayPage />
-    },
+   
     {
       path: 'route',
       element: <RoutePage />
@@ -65,10 +62,7 @@ const MainRoutes = {
       path: 'adddriver',
       element: <AddDriver />
     },
-    {
-      path: 'addpay',
-      element: <AddPay />
-    }
+   
     
     
     

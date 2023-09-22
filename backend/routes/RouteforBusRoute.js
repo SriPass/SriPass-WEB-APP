@@ -44,20 +44,22 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// PUT - Update a BusRoute by RouteNo
+
+
 router.put('/:id', async (req, res) => {
-  const routeNo = req.params.routeNo;
+  const objectId = req.params.id;
 
   try {
-    const updatedBusRoute = await BusRoute.findOneAndUpdate(
-      { RouteNo: routeNo },
-      req.body,
-      { new: true }
+    const updatedBusRoute = await BusRoute.findByIdAndUpdate(
+      objectId,
+      req.body, // Update with the request body
+      { new: true } // To return the updated document
     );
+
     if (!updatedBusRoute) {
       res.status(404).json({ message: 'BusRoute not found' });
     } else {
-      res.json(updatedBusRoute);
+      res.json({ message: 'BusRoute updated successfully', updatedRoute: updatedBusRoute });
     }
   } catch (error) {
     console.error(error);
@@ -65,16 +67,17 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE - Delete a BusRoute by RouteNo
+// DELETE - Delete a specific BusRoute by ObjectId
 router.delete('/:id', async (req, res) => {
-  const routeNo = req.params.routeNo;
+  const objectId = req.params.id; 
 
   try {
-    const deletedBusRoute = await BusRoute.findOneAndDelete({ RouteNo: routeNo });
+    const deletedBusRoute = await BusRoute.findByIdAndRemove(objectId);
+
     if (!deletedBusRoute) {
       res.status(404).json({ message: 'BusRoute not found' });
     } else {
-      res.json({ message: 'BusRoute deleted successfully' });
+      res.json({ message: 'BusRoute deleted successfully', deletedRoute: deletedBusRoute });
     }
   } catch (error) {
     console.error(error);

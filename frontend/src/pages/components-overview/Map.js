@@ -12,8 +12,8 @@ function Map() {
     const directionsService = new window.google.maps.DirectionsService();
 
     // Define the start and end points
-    const start = 'San Francisco, CA';
-    const destination = 'Los Angeles, CA';
+    const start = 'Matara';
+    const destination = 'Colombo';
 
     // Create a DirectionsRenderer object to display the route
     const directionsRenderer = new window.google.maps.DirectionsRenderer();
