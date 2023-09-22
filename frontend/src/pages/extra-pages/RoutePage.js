@@ -1,99 +1,428 @@
-
-
-// material-ui
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Grid,
     List,
     ListItemButton,
     ListItemText,
-   
+    Table,
+    TableCell,
+    TableContainer,
+    TableRow,
+    TableHead,
+    TablePagination,
+    TextField,
+    InputAdornment,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    IconButton,
     Typography
+
 } from '@mui/material';
-
-// project import
-
-
-import ReportAreaChart from 'pages/dashboard/ReportAreaChart';
 import MainCard from 'components/MainCard';
-// import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
-
-// assets
-
-import RouteTable from 'pages/dashboard/RouteTable';
 import Map from 'pages/components-overview/Map';
 import AddRoute from 'pages/components-overview/AddRoute';
-// import avatar1 from 'assets/images/users/avatar-1.png';
-// import avatar2 from 'assets/images/users/avatar-2.png';
-// import avatar3 from 'assets/images/users/avatar-3.png';
-// import avatar4 from 'assets/images/users/avatar-4.png';
-
-// avatar style
-
-
-// action style
-
-
-// sales report status
-
-
-// ==============================|| DASHBOARD - DEFAULT ||============================== //
+import SearchIcon from '@mui/icons-material/Search';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { message } from 'antd';
 
 const RoutePage = () => {
-    
-    // const [slot, setSlot] = useState('week');
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [data, setData] = useState([]);
+    const [editingRoute, setEditingRoute] = useState(null);
+    const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+    const [estimatedTime, setEstimatedTime] = useState('-');
+    const [viewRouteDetails, setViewRouteDetails] = useState({ from: '-', to: '-' });
+
+
+
+
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:8070/api/busroutes/');
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+                const data = await response.json();
+                setData(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const headCells = [
+        { id: 'RouteNo', label: 'Route No' },
+        { id: 'from', label: 'From' },
+        { id: 'to', label: 'To' },
+        { id: 'vehicleNo', label: 'Vehicle No' },
+        { id: 'map', label: 'Map' },
+        { id: 'actions', label: 'Actions' },
+
+    ];
+
+    const key = 'updatable'; // Define a unique key for the message
+
+    const handleEdit = (row) => {
+        setEditingRoute(row);
+    };
+
+    const handleDelete = (row) => {
+        setDeleteConfirmation(row);
+    };
+
+
+    const confirmDelete = () => {
+        // Make the DELETE request here and handle success/failure
+        const routeId = deleteConfirmation._id; // Use _id as the identifier
+        fetch(`http://localhost:8070/api/busroutes/${routeId}`, {
+            method: 'DELETE',
+        })
+            .then((response) => {
+                if (response.ok) {
+                    // Handle success
+                    message.open({
+                        key,
+                        type: 'loading',
+                        content: 'Loading...',
+                    });
+
+                    setTimeout(() => {
+                        message.open({
+                            key,
+                            type: 'success',
+                            content: 'Route deleted successfully',
+                            duration: 2,
+                        });
+                    }, 1000);
+                    message.config({
+                        top: 100,
+                        duration: 2,
+                        maxCount: 4,
+                        rtl: true,
+                        prefixCls: 'my-message',
+                    });
+                    fetchData();
+                } else {
+                    // Handle success
+                    message.open({
+                        key,
+                        type: 'loading',
+                        content: 'Loading...',
+                    });
+
+                    setTimeout(() => {
+                        message.open({
+                            key,
+                            type: 'error',
+                            content: 'Error',
+                            duration: 2,
+                        });
+                    }, 1000);
+                    message.config({
+                        top: 100,
+                        duration: 2,
+                        maxCount: 4,
+                        rtl: true,
+                        prefixCls: 'my-message',
+                    });
+                    console.error('Error deleting route');
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting route:', error);
+            })
+            .finally(() => {
+                setDeleteConfirmation(null);
+            });
+    };
+
+    const handleCloseEditModal = () => {
+        setEditingRoute(null);
+    };
+
+    const handleSaveEdit = () => {
+        const routeId = editingRoute._id; // Use _id as the identifier
+
+
+        fetch(`http://localhost:8070/api/busroutes/${routeId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(editingRoute), // Assuming editingRoute holds the updated data
+        })
+            .then((response) => {
+                if (response.ok) {
+                    // Handle success
+                    message.open({
+                        key,
+                        type: 'loading',
+                        content: 'Loading...',
+                    });
+
+                    setTimeout(() => {
+                        message.open({
+                            key,
+                            type: 'success',
+                            content: 'Route updated successfully',
+                            duration: 2,
+                        });
+                    }, 1000);
+                    message.config({
+                        top: 100,
+                        duration: 2,
+                        maxCount: 4,
+                        rtl: true,
+                        prefixCls: 'my-message',
+                    });
+
+                    // Reload data or update state as needed
+                    // For example, you can fetch data again to update the table
+                    fetchData();
+                } else {
+                    message.open({
+                        key,
+                        type: 'loading',
+                        content: 'Loading...',
+                    });
+
+                    setTimeout(() => {
+                        message.open({
+                            key,
+                            type: 'error',
+                            content: 'Error',
+                            duration: 2,
+                        });
+                    }, 1000);
+                    message.config({
+                        top: 100,
+                        duration: 2,
+                        maxCount: 4,
+                        rtl: true,
+                        prefixCls: 'my-message',
+                    });
+                    console.error('Error updating route');
+                }
+            })
+            .catch((error) => {
+                console.error('Error updating route:', error);
+            })
+            .finally(() => {
+                setEditingRoute(null);
+            });
+    };
+
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:8070/api/busroutes/');
+            if (!response.ok) {
+                throw new Error('API request failed');
+            }
+            const data = await response.json();
+            setData(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    // Filter data based on the search query
+    const filteredData = data.filter((item) =>
+        item.RouteNo.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    const [viewRoute, setViewRoute] = useState(null);
+
+    const handleViewRoute = (row) => {
+        setViewRoute({ from: row.from, to: row.to });
+        setViewRouteDetails({
+            from: row.from,
+            to: row.to,
+        });
+    };
 
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-            {/* row 1 */}
-            {/* <Grid item xs={12} sx={{ mb: -2.25 }}>
-        <Typography variant="h5">Dashboard - Reports (Implementing Progress 60% - Last Update - 09/19 - 03:30AM)</Typography>
-      </Grid> */}
-            {/* <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Page Views" count="4,42,236" percentage={59.3} extra="35,000" />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Users" count="78,250" percentage={70.5} extra="8,900" />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Order" count="18,800" percentage={27.4} isLoss color="warning" extra="1,943" />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Sales" count="$35,078" percentage={27.4} isLoss color="warning" extra="$20,395" />
-            </Grid>
-
-            <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} /> */}
-
-            {/* row 2 */}
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h5">Route Details</Typography>
                     </Grid>
-                    {/* <Grid item>
-                        <Stack direction="row" alignItems="center" spacing={0}>
-                            <Button
-                                size="small"
-                                onClick={() => setSlot('month')}
-                                color={slot === 'month' ? 'primary' : 'secondary'}
-                                variant={slot === 'month' ? 'outlined' : 'text'}
-                            >
-                                Month
-                            </Button>
-                            <Button
-                                size="small"
-                                onClick={() => setSlot('week')}
-                                color={slot === 'week' ? 'primary' : 'secondary'}
-                                variant={slot === 'week' ? 'outlined' : 'text'}
-                            >
-                                Week
-                            </Button>
-                        </Stack>
-                    </Grid> */}
+
                 </Grid>
                 <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
                     <Box sx={{ pt: 1, pr: 2 }}>
-                        <RouteTable />
+                        <Box>
+                            {/* Search and Add Button */}
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    marginTop: '20px',
+                                    marginBottom: '30px',
+                                }}
+                            >
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <TextField
+                                        label="Search"
+                                        variant="outlined"
+                                        size="small"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <SearchIcon />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Table */}
+                            <TableContainer>
+                                <Table aria-labelledby="tableTitle">
+                                    <TableHead>
+                                        <TableRow>
+                                            {headCells.map((headCell) => (
+                                                <TableCell key={headCell.id} align="left">
+                                                    {headCell.label}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
+                                    {/* Render table rows */}
+                                    <tbody>
+                                        {filteredData
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row) => (
+                                                <TableRow key={row.RouteNo}>
+                                                    <TableCell align="left">{row.RouteNo}</TableCell>
+                                                    <TableCell align="left">{row.from}</TableCell>
+                                                    <TableCell align="left">{row.to}</TableCell>
+                                                    <TableCell align="left">{row.vehicleNo}</TableCell>
+
+                                                    <TableCell align="left">
+                                                        {/* Add the "See" button */}
+                                                        {/* Change the "See" text to a Button */}
+                                                        <Button variant="outlined" onClick={() => handleViewRoute(row)}>
+                                                            VIEW
+                                                        </Button>
+                                                    </TableCell>
+                                                    <TableCell align="left">
+                                                        <IconButton onClick={() => handleEdit(row)}>
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                        <IconButton onClick={() => handleDelete(row)}>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                    </tbody>
+                                </Table>
+                            </TableContainer>
+
+                            <TablePagination
+                                rowsPerPageOptions={[5]} // Include 5 as an option
+                                component="div"
+                                count={filteredData.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+
+
+                            {/* Edit Modal */}
+                            <Dialog open={!!editingRoute} onClose={handleCloseEditModal}>
+                                <DialogTitle>Edit Route</DialogTitle>
+                                <DialogContent style={{ padding: '30px' }}>
+                                    {/* Edit form fields go here */}
+                                    {/* Example: */}
+                                    <TextField
+                                        label="Route No"
+                                        variant="outlined"
+                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                        value={editingRoute ? editingRoute.RouteNo : ''}
+                                        onChange={(e) =>
+                                            setEditingRoute({ ...editingRoute, RouteNo: e.target.value })
+                                        }
+                                    />
+                                    <TextField
+                                        label="From"
+                                        variant="outlined"
+                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                        value={editingRoute ? editingRoute.from : ''}
+                                        onChange={(e) => setEditingRoute({ ...editingRoute, from: e.target.value })}
+                                    />
+                                    <TextField
+                                        label="To"
+                                        variant="outlined"
+                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                        value={editingRoute ? editingRoute.to : ''}
+                                        onChange={(e) => setEditingRoute({ ...editingRoute, to: e.target.value })}
+                                    />
+                                    <TextField
+                                        label="Vehicle No"
+                                        variant="outlined"
+                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                        value={editingRoute ? editingRoute.vehicleNo : ''}
+                                        onChange={(e) =>
+                                            setEditingRoute({ ...editingRoute, vehicleNo: e.target.value })
+                                        }
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleCloseEditModal} color="primary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={handleSaveEdit} color="primary">
+                                        Save
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+
+
+                            {/* Delete Confirmation Dialog */}
+                            <Dialog open={!!deleteConfirmation} onClose={() => setDeleteConfirmation(null)}>
+                                <DialogTitle>Confirm Delete</DialogTitle>
+                                <DialogContent>
+                                    Are you sure you want to delete this route?
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={() => setDeleteConfirmation(null)} color="primary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={confirmDelete} color="primary">
+                                        Delete
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </Box>
                     </Box>
                 </MainCard>
 
@@ -106,7 +435,7 @@ const RoutePage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                   <AddRoute/>
+                    <AddRoute />
                 </MainCard>
             </Grid>
 
@@ -119,36 +448,44 @@ const RoutePage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                <Map/>
+                    <Map
+                        start={viewRoute ? viewRoute.from : null}
+                        destination={viewRoute ? viewRoute.to : null}
+                        onEstimatedTimeUpdate={(time) => setEstimatedTime(time)}
+                    />
                 </MainCard>
             </Grid>
             <Grid item xs={12} md={5} lg={4}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Analytics Report</Typography>
+                        <Typography variant="h5">Route Details</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
                     <List sx={{ p: 0, '& .MuiListItemButton-root': { py: 2 } }}>
                         <ListItemButton divider>
-                            <ListItemText primary="No Data" />
-                            <Typography variant="h5">+45.14%</Typography>
+                            <ListItemText primary="Estimated Time" />
+                            <Typography variant="h5">{estimatedTime}</Typography>
                         </ListItemButton>
-                        <ListItemButton divider>
-                            <ListItemText primary="No Data" />
-                            <Typography variant="h5">0.58%</Typography>
-                        </ListItemButton>
-                        <ListItemButton>
-                            <ListItemText primary="No Data" />
-                            <Typography variant="h5">Low</Typography>
-                        </ListItemButton>
+                        {viewRouteDetails && (
+                            <>
+                                <ListItemButton divider>
+                                    <ListItemText primary="Start" />
+                                    <Typography variant="h5">{viewRouteDetails.from}</Typography>
+                                </ListItemButton>
+                                <ListItemButton>
+                                    <ListItemText primary="Destination" />
+                                    <Typography variant="h5">{viewRouteDetails.to}</Typography>
+                                </ListItemButton>
+                            </>
+                        )}
                     </List>
-                    <ReportAreaChart />
                 </MainCard>
+
             </Grid>
 
-         
+
         </Grid>
     );
 };
