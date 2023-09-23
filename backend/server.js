@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const driversRoute=require('./routes/DriverRoute');
 const busRoutesRoute = require('./routes/RouteforBusRoute'); // Import your busRoutes routes
-const busSchedulesRouter = require('./routes/busSchedulesRoute'); // Import your busSchedules routes
+const busSchedulesRouter = require('./routes/BusSchedulesRoute'); // Import your busSchedules routes
 const localPassengersRouter = require('./routes/localPassengersRoute'); // Import your localPassengers routes
  const busInspectorsRouter = require('./routes/BusInspectorsRoute'); // Import your busInspectors routes
 

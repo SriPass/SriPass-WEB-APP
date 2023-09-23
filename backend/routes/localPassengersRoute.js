@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const LocalPassengers = require('../models/LocalPassengersModel');
+const LocalPassengers = require('../models/localPassengersModel');
 
 // POST - Create a new LocalPassenger
 router.post('/', async (req, res) => {
