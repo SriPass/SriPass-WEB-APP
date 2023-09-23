@@ -18,7 +18,6 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    IconButton,
     Typography
 
 } from '@mui/material';
@@ -26,8 +25,6 @@ import MainCard from 'components/MainCard';
 import Map from 'pages/components-overview/Map';
 import AddRoute from 'pages/components-overview/AddRoute';
 import SearchIcon from '@mui/icons-material/Search';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { message } from 'antd';
 
 const RoutePage = () => {
@@ -331,7 +328,7 @@ const RoutePage = () => {
                                                             VIEW
                                                         </Button>
                                                     </TableCell>
-                                                    <TableCell align="left">
+                                                    {/* <TableCell align="left">
                                                         <IconButton onClick={() => handleEdit(row)}>
                                                             <EditIcon />
                                                         </IconButton>
@@ -339,6 +336,23 @@ const RoutePage = () => {
                                                             <DeleteIcon />
                                                         </IconButton>
 
+                                                    </TableCell> */}
+                                                     <TableCell align="left">
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            onClick={() =>handleDelete(row)}
+                                                            style={{ marginRight: '8px' }}
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            onClick={() => handleEdit(row)}
+                                                        >
+                                                            Edit
+                                                        </Button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}

@@ -9,8 +9,8 @@ import {
 
 } from '@mui/material';
 import MainCard from 'components/MainCard';
-
 import DriverTable from 'pages/dashboard/DriverTable';
+import AddDriver from 'pages/components-overview/AddDriver';
 
 
 const DriverPage = () => {
@@ -43,7 +43,7 @@ const DriverPage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                    add form
+                    <AddDriver/>
                 </MainCard>
             </Grid>
 
