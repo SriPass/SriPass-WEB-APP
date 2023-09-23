@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import RoutePage from 'pages/extra-pages/RoutePage';
+import BusScheduleTable from 'pages/dashboard/BusScheduleTable'
 
 
 // render
@@ -56,7 +57,10 @@ const MainRoutes = {
       path: 'route',
       element: <RoutePage />
     },
-   
+    {
+      path: 'bus',
+      element: <BusScheduleTable/>
+    },
     //forms
     {
       path: 'addcustomer',
