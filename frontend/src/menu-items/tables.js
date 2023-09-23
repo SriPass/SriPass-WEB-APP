@@ -104,7 +104,7 @@ const tabales = {
       id: 'expenses-page',
       title: 'Fare Revenue Analysis',
       type: 'item',
-      url: '/expenses',
+      url: '/fareRevenue',
       icon: icons.MoneyCollectOutlined,
     },
     // {

@@ -12,7 +12,7 @@ const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const CustomerPage = Loadable(lazy(() => import('pages/extra-pages/CustomerPage')));
 const DriverPage = Loadable(lazy(() => import('pages/extra-pages/DriverPage')));
 import InspectorPage from 'pages/extra-pages/InspectorPage';
-
+import FareRevenuePage from 'pages/extra-pages/FareRevenuePage';
 
 // render - utilities
 const AddCustomer = Loadable(lazy(() => import('pages/components-overview/AddCustomer')));
@@ -56,6 +56,10 @@ const MainRoutes = {
     {
       path: 'route',
       element: <RoutePage />
+    },
+    {
+      path: 'fareRevenue',
+      element: <FareRevenuePage />
     },
     {
       path: 'bus',
