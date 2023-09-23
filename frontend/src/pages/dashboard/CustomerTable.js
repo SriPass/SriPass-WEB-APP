@@ -29,7 +29,7 @@
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const response = await fetch('http://localhost:8070/api/localpassengers'); // Updated URL
+//         const response = await fetch('https://sripass.onrender.com/api/localpassengers'); // Updated URL
 //         if (!response.ok) {
 //           throw new Error('API request failed');
 //         }
@@ -66,7 +66,7 @@
 //       try {
 //         const updatedPassenger = { ...editedPassenger, ...editedFields[passengerId] };
 
-//         const response = await fetch(`http://localhost:8070/api/localpassengers/${passengerId}`, {
+//         const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${passengerId}`, {
 //           method: 'PUT',
 //           headers: {
 //             'Content-Type': 'application/json',
@@ -279,7 +279,7 @@ function CustomerTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8070/api/localpassengers'); // Updated URL
+        const response = await fetch('https://sripass.onrender.com/api/localpassengers'); // Updated URL
         if (!response.ok) {
           throw new Error('API request failed');
         }
@@ -335,7 +335,7 @@ function CustomerTable() {
       try {
         const updatedPassenger = { ...editedPassenger, ...editedFields[passengerId] };
 
-        const response = await fetch(`http://localhost:8070/api/localpassengers/${passengerId}`, {
+        const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${passengerId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

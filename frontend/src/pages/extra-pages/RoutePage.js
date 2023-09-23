@@ -47,7 +47,7 @@ const RoutePage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8070/api/busroutes/');
+                const response = await fetch('https://sripass.onrender.com/api/busroutes/');
                 if (!response.ok) {
                     throw new Error('API request failed');
                 }
@@ -93,7 +93,7 @@ const RoutePage = () => {
     const confirmDelete = () => {
         // Make the DELETE request here and handle success/failure
         const routeId = deleteConfirmation._id; // Use _id as the identifier
-        fetch(`http://localhost:8070/api/busroutes/${routeId}`, {
+        fetch(`https://sripass.onrender.com/api/busroutes/${routeId}`, {
             method: 'DELETE',
         })
             .then((response) => {
@@ -163,7 +163,7 @@ const RoutePage = () => {
         const routeId = editingRoute._id; // Use _id as the identifier
 
 
-        fetch(`http://localhost:8070/api/busroutes/${routeId}`, {
+        fetch(`https://sripass.onrender.com/api/busroutes/${routeId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -233,7 +233,7 @@ const RoutePage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8070/api/busroutes/');
+            const response = await fetch('https://sripass.onrender.com/api/busroutes/');
             if (!response.ok) {
                 throw new Error('API request failed');
             }

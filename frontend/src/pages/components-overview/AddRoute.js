@@ -23,7 +23,7 @@ const AddRoute = () => {
         event.preventDefault();
 
         try {
-            const addResponse = await fetch('http://localhost:8070/api/busroutes/', {
+            const addResponse = await fetch('https://sripass.onrender.com/api/busroutes/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

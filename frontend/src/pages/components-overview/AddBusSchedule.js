@@ -24,7 +24,7 @@ const AddRoute = () => {
     event.preventDefault();
 
     try {
-      const addResponse = await fetch('http://localhost:8070/api/bus-schedules/', {
+      const addResponse = await fetch('https://sripass.onrender.com/api/bus-schedules/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const AddRoute = () => {
   useEffect(() => {
     const fetchRouteOptions = async () => {
       try {
-        const response = await fetch('http://localhost:8070/api/busroutes/');
+        const response = await fetch('https://sripass.onrender.com/api/busroutes/');
         if (!response.ok) {
           throw new Error('API request failed');
         }

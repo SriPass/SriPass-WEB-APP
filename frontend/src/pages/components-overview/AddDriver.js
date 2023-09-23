@@ -24,7 +24,7 @@
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     try {
-//       const addResponse = await fetch('http://localhost:8070/api/driver/', {
+//       const addResponse = await fetch('https://sripass.onrender.com/api/driver/', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',
@@ -198,7 +198,7 @@ const AddDriver = () => {
 
   useEffect(() => {
     // Fetch the route data when the component mounts
-    fetch('http://localhost:8070/api/busroutes/')
+    fetch('https://sripass.onrender.com/api/busroutes/')
       .then((response) => response.json())
       .then((data) => {
         setRoutes(data); // Update the routes state with the fetched data
@@ -215,7 +215,7 @@ const AddDriver = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const addResponse = await fetch('http://localhost:8070/api/driver/', {
+      const addResponse = await fetch('https://sripass.onrender.com/api/driver/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
