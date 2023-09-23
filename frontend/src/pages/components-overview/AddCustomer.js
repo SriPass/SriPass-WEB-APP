@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import MainCard from 'components/MainCard';
-import { Button, FormControl, InputLabel, OutlinedInput, Select, MenuItem } from '@mui/material';
+import { Button, FormControl, InputLabel, OutlinedInput} from '@mui/material';
 import { message } from 'antd';
 
 
@@ -17,7 +17,7 @@ const AddCustomer = () => {
     address: '',
   });
 
-  const [routes, setRoutes] = useState([]); // State variable to store route data
+  const [ setRoutes] = useState([]); // State variable to store route data
 
   useEffect(() => {
     // Fetch the route data when the component mounts
