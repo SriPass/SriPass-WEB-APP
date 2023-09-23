@@ -63,13 +63,13 @@ const tabales = {
       icon: icons.ScheduleOutlined,
     },
     // New pages
-    // {
-    //   id: 'carrier-page',
-    //   title: 'Driver Details',
-    //   type: 'item',
-    //   url: '/carrier',
-    //   icon: icons.CarOutlined,
-    // },
+    {
+      id: 'carrier-page',
+      title: 'Inspector Details',
+      type: 'item',
+      url: '/inspector',
+      icon: icons.CarOutlined,
+    },
     // {
     //   id: 'carrier-rate-page',
     //   title: 'Carrier Rate',
