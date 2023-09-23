@@ -4,18 +4,19 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import RoutePage from 'pages/extra-pages/RoutePage';
-import BusScheduleTable from 'pages/dashboard/BusScheduleTable'
+
 
 // render
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const CustomerPage = Loadable(lazy(() => import('pages/extra-pages/CustomerPage')));
 const DriverPage = Loadable(lazy(() => import('pages/extra-pages/DriverPage')));
-
+import InspectorPage from 'pages/extra-pages/InspectorPage';
 
 
 // render - utilities
 const AddCustomer = Loadable(lazy(() => import('pages/components-overview/AddCustomer')));
 const AddDriver = Loadable(lazy(() => import('pages/components-overview/AddDriver')));
+import AddInspector from './../pages/components-overview/AddInspector';
 
 
 
@@ -47,14 +48,13 @@ const MainRoutes = {
       path: 'driver',
       element: <DriverPage />
     },
-   
+    {
+      path: 'inspector',
+      element: <InspectorPage />
+    },
     {
       path: 'route',
       element: <RoutePage />
-    },
-    {
-      path: 'bus',
-      element: <BusScheduleTable/>
     },
    
     //forms
@@ -66,8 +66,10 @@ const MainRoutes = {
       path: 'adddriver',
       element: <AddDriver />
     },
-    
-   
+    {
+      path: 'addinspector',
+      element: <AddInspector />
+    },
     
     
     
