@@ -28,16 +28,33 @@ router.get('/', async (req, res) => {
 });
 
 // DELETE - Delete a driver by ID
+// router.delete('/:id', async (req, res) => {
+//   try {
+//     const driverId = req.params.id;
+//     const deletedDriver = await Driver.findByIdAndRemove(driverId);
+
+//     if (!deletedDriver) {
+//       return res.status(404).json({ error: 'Driver not found' });
+//     }
+
+//     res.json({ message: 'Driver deleted successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+// DELETE - Delete a specific Driver by ObjectId
 router.delete('/:id', async (req, res) => {
+  const objectId = req.params.id; 
+
   try {
-    const driverId = req.params.id;
-    const deletedDriver = await Driver.findByIdAndRemove(driverId);
+    const deletedDriver = await Driver.findByIdAndRemove(objectId);
 
     if (!deletedDriver) {
-      return res.status(404).json({ error: 'Driver not found' });
+      res.status(404).json({ message: 'Driver not found' });
+    } else {
+      res.json({ message: 'Driver deleted successfully', deletedDriver });
     }
-
-    res.json({ message: 'Driver deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
