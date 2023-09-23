@@ -38,7 +38,7 @@ const icons = {
 
 const tabales = {
   id: 'tables',
-  title: 'Tables',
+  title: 'Transport Management',
   type: 'group',
   children: [
     {
