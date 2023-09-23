@@ -52,7 +52,7 @@ const tabales = {
       id: 'load-page',
       title: 'Bus Scheduling',
       type: 'item',
-      url: '/load',
+      url: '/bus',
       icon: icons.CarryOutOutlined,
     },
     {
@@ -62,6 +62,7 @@ const tabales = {
       url: '/route',
       icon: icons.ScheduleOutlined,
     },
+    
     // New pages
     // {
     //   id: 'carrier-page',

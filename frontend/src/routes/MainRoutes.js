@@ -4,7 +4,7 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import RoutePage from 'pages/extra-pages/RoutePage';
-
+import BusScheduleTable from 'pages/dashboard/BusScheduleTable'
 
 // render
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -52,6 +52,10 @@ const MainRoutes = {
       path: 'route',
       element: <RoutePage />
     },
+    {
+      path: 'bus',
+      element: <BusScheduleTable/>
+    },
    
     //forms
     {
@@ -62,6 +66,7 @@ const MainRoutes = {
       path: 'adddriver',
       element: <AddDriver />
     },
+    
    
     
     
