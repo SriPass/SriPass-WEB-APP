@@ -1,45 +1,219 @@
+// import React from 'react';
+// import MainCard from 'components/MainCard';
+// import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
+// import { message } from 'antd';
 
-import React from 'react';
+// const AddDriver = () => {
+
+//   const key = 'updatable'; // Define a unique key for the message
+
+
+//   const [values, setValues] = React.useState({
+//     driver_id: '',
+//     name: '',
+//     tel: '',
+//     address: '',
+//     assignedRoute: '',
+//     assignedVehicle: '',
+//   });
+
+//   const handleChange = (prop) => (event) => {
+//     setValues({ ...values, [prop]: event.target.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const addResponse = await fetch('http://localhost:8070/api/driver/', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(values),
+//       });
+
+//       if (!addResponse.ok) {
+//         throw new Error('API request failed');
+//       }
+
+//       const data = await addResponse.json();
+//       console.log('New driver added:', data);
+//       message.open({
+//         key,
+//         type: 'loading',
+//         content: 'Loading...',
+//     });
+
+//     setTimeout(() => {
+//         message.open({
+//             key,
+//             type: 'success',
+//             content: 'Driver added successfully',
+//             duration: 2,
+//         });
+//     }, 1000);
+//     message.config({
+//         top: 100,
+//         duration: 2,
+//         maxCount: 4,
+//         rtl: true,
+//         prefixCls: 'my-message',
+//     });
+//     } catch (error) {
+//       console.error('Error adding new driver:', error);
+//       message.open({
+//         key,
+//         type: 'loading',
+//         content: 'Loading...',
+//     });
+
+//     setTimeout(() => {
+//         message.open({
+//             key,
+//             type: 'error',
+//             content: 'Error',
+//             duration: 2,
+//         });
+//     }, 1000);
+//     message.config({
+//         top: 100,
+//         duration: 2,
+//         maxCount: 4,
+//         rtl: true,
+//         prefixCls: 'my-message',
+//     });
+//     }
+//   };
+
+//   return (
+//     <MainCard>
+//     <form onSubmit={handleSubmit}>
+//       <div style={{ marginBottom: '16px' }}>
+//         <FormControl fullWidth variant="outlined">
+//           <InputLabel htmlFor="driver_id">Driver ID</InputLabel>
+//           <OutlinedInput
+//             id="driver_id"
+//             type="number"
+//             value={values.driver_id}
+//             onChange={handleChange('driver_id')}
+//             required
+//             label="Driver ID"
+//           />
+//         </FormControl>
+//       </div>
+//       <div style={{ marginBottom: '16px' }}>
+//         <FormControl fullWidth variant="outlined">
+//           <InputLabel htmlFor="name">Name</InputLabel>
+//           <OutlinedInput
+//             id="name"
+//             type="text"
+//             value={values.name}
+//             onChange={handleChange('name')}
+//             required
+//             label="Name"
+//           />
+//         </FormControl>
+//       </div>
+//       <div style={{ marginBottom: '16px' }}>
+//         <FormControl fullWidth variant="outlined">
+//           <InputLabel htmlFor="tel">Tel</InputLabel>
+//           <OutlinedInput
+//             id="tel"
+//             type="tel"
+//             value={values.tel}
+//             onChange={handleChange('tel')}
+//             required
+//             label="Tel"
+//           />
+//         </FormControl>
+//       </div>
+//       <div style={{ marginBottom: '16px' }}>
+//         <FormControl fullWidth variant="outlined">
+//           <InputLabel htmlFor="address">Address</InputLabel>
+//           <OutlinedInput
+//             id="address"
+//             type="text"
+//             value={values.address}
+//             onChange={handleChange('address')}
+//             required
+//             label="Address"
+//           />
+//         </FormControl>
+//       </div>
+//       <div style={{ marginBottom: '16px' }}>
+//         <FormControl fullWidth variant="outlined">
+//           <InputLabel htmlFor="assignedRoute">Assigned Route</InputLabel>
+//           <OutlinedInput
+//             id="assignedRoute"
+//             type="text"
+//             value={values.assignedRoute}
+//             onChange={handleChange('assignedRoute')}
+//             required
+//             label="Assigned Route"
+//           />
+//         </FormControl>
+//       </div>
+//       <div style={{ marginBottom: '16px' }}>
+//         <FormControl fullWidth variant="outlined" style={{ marginBottom: '16px' }}>
+//           <InputLabel htmlFor="assignedVehicle">Assigned Vehicle</InputLabel>
+//           <OutlinedInput
+//             id="assignedVehicle"
+//             type="text"
+//             value={values.assignedVehicle}
+//             onChange={handleChange('assignedVehicle')}
+//             required
+//             label="Assigned Vehicle"
+//           />
+//         </FormControl>
+//       </div>
+//       {/* Apply width style to the button */}
+//       <Button type="submit" variant="contained" color="primary" style={{ width: '100%' }}>
+//         Add
+//       </Button>
+//     </form>
+//   </MainCard>
+  
+//   );
+// };
+
+// export default AddDriver;
+import React, { useState, useEffect } from 'react';
 import MainCard from 'components/MainCard';
-import { message, Button, Form, Input, InputNumber } from 'antd';
-
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+import { Button, FormControl, InputLabel, OutlinedInput, Select, MenuItem } from '@mui/material';
+import { message } from 'antd';
 
 const AddDriver = () => {
-  const key = 'updatable';
-  const [form] = Form.useForm();
+  const key = 'updatable'; // Define a unique key for the message
 
-  const onFinish = async (values) => {
+  const [values, setValues] = useState({
+    driver_id: '',
+    name: '',
+    tel: '',
+    address: '',
+    assignedRoute: '',
+    assignedVehicle: '',
+  });
+
+  const [routes, setRoutes] = useState([]); // State variable to store route data
+
+  useEffect(() => {
+    // Fetch the route data when the component mounts
+    fetch('http://localhost:8070/api/busroutes/')
+      .then((response) => response.json())
+      .then((data) => {
+        setRoutes(data); // Update the routes state with the fetched data
+      })
+      .catch((error) => {
+        console.error('Error fetching routes:', error);
+      });
+  }, []); // Empty dependency array ensures this effect runs once when the component mounts
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const addResponse = await fetch('http://localhost:8070/api/driver/', {
         method: 'POST',
@@ -55,7 +229,6 @@ const AddDriver = () => {
 
       const data = await addResponse.json();
       console.log('New driver added:', data);
-
       message.open({
         key,
         type: 'loading',
@@ -66,7 +239,7 @@ const AddDriver = () => {
         message.open({
           key,
           type: 'success',
-          content: `Driver ${values.driver_id} Added`, // Update success message
+          content: 'Driver added successfully',
           duration: 2,
         });
       }, 1000);
@@ -80,7 +253,6 @@ const AddDriver = () => {
       });
     } catch (error) {
       console.error('Error adding new driver:', error);
-
       message.open({
         key,
         type: 'loading',
@@ -91,7 +263,7 @@ const AddDriver = () => {
         message.open({
           key,
           type: 'error',
-          content: 'Error', // Update error message
+          content: 'Error',
           duration: 2,
         });
       }, 1000);
@@ -108,96 +280,95 @@ const AddDriver = () => {
 
   return (
     <MainCard>
-      <Form
-        {...formItemLayout}
-        form={form}
-        name="Submit"
-        onFinish={onFinish}
-        validateMessages={{
-          required: '${label} is required!',
-        }}
-        style={{
-          maxWidth: 600,
-        }}
-        scrollToFirstError
-      >
-        <Form.Item
-          name="driver_id"
-          label="Driver ID"
-          rules={[
-            { required: true, message: 'Driver ID is required' },
-            { type: 'integer', message: 'Driver ID must be an integer' },
-          ]}
-        >
-          <InputNumber min={0} />
-        </Form.Item>
-
-        <Form.Item
-          name="name"
-          label="Name"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="tel"
-          label="Tel"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="address"
-          label="Address"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="assignedRoute"
-          label="Assigned Route"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="assignedVehicle"
-          label="Assigned Vehicle"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Add
-          </Button>
-        </Form.Item>
-      </Form>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="driver_id">Driver ID</InputLabel>
+            <OutlinedInput
+              id="driver_id"
+              type="number"
+              value={values.driver_id}
+              onChange={handleChange('driver_id')}
+              required
+              label="Driver ID"
+            />
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="name">Name</InputLabel>
+            <OutlinedInput
+              id="name"
+              type="text"
+              value={values.name}
+              onChange={handleChange('name')}
+              required
+              label="Name"
+            />
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="tel">Tel</InputLabel>
+            <OutlinedInput
+              id="tel"
+              type="tel"
+              value={values.tel}
+              onChange={handleChange('tel')}
+              required
+              label="Tel"
+            />
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="address">Address</InputLabel>
+            <OutlinedInput
+              id="address"
+              type="text"
+              value={values.address}
+              onChange={handleChange('address')}
+              required
+              label="Address"
+            />
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="assignedRoute">Assigned Route</InputLabel>
+            <Select
+              id="assignedRoute"
+              value={values.assignedRoute}
+              onChange={handleChange('assignedRoute')}
+              label="Assigned Route"
+              required
+            >
+              {routes.map((route) => (
+                <MenuItem key={route.RouteNo} value={route.RouteNo}>
+                  {route.RouteNo}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined" style={{ marginBottom: '16px' }}>
+            <InputLabel htmlFor="assignedVehicle">Assigned Vehicle</InputLabel>
+            <OutlinedInput
+              id="assignedVehicle"
+              type="text"
+              value={values.assignedVehicle}
+              onChange={handleChange('assignedVehicle')}
+              required
+              label="Assigned Vehicle"
+            />
+          </FormControl>
+        </div>
+        {/* Apply width style to the button */}
+        <Button type="submit" variant="contained" color="primary" style={{ width: '100%' }}>
+          Add
+        </Button>
+      </form>
     </MainCard>
   );
 };
