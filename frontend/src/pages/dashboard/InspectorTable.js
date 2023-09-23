@@ -34,7 +34,7 @@ function InspectorTable() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('http://localhost:8070/api/busInspectors/');
+        const response = await fetch('https://sripass.onrender.com/api/busInspectors/');
         if (!response.ok) {
           throw new Error('Failed to fetch inspector data');
         }
@@ -97,7 +97,7 @@ function InspectorTable() {
 
   const handleDelete = async (inspectorId) => {
     try {
-      const response = await fetch(`http://localhost:8070/api/busInspectors/${inspectorId}`, {
+      const response = await fetch(`https://sripass.onrender.com/api/busInspectors/${inspectorId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -115,7 +115,7 @@ function InspectorTable() {
   const handleSaveEdit = async (rowId) => {
     try {
       const updatedInspector = { ...inspectors.find((inspector) => inspector.inspectorId === rowId), ...editedFields[rowId] };
-      const response = await fetch(`http://localhost:8070/api/busInspectors/${rowId}`, {
+      const response = await fetch(`https://sripass.onrender.com/api/busInspectors/${rowId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -34,7 +34,7 @@ function DriverTable() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('http://localhost:8070/api/driver/');
+        const response = await fetch('https://sripass.onrender.com/api/driver/');
         if (!response.ok) {
           throw new Error('Failed to fetch driver data');
         }
@@ -97,7 +97,7 @@ function DriverTable() {
 
   const handleDelete = async (driverId) => {
     try {
-      const response = await fetch(`http://localhost:8070/api/driver/${driverId}`, {
+      const response = await fetch(`https://sripass.onrender.com/api/driver/${driverId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -115,7 +115,7 @@ function DriverTable() {
   const handleSaveEdit = async (rowId) => {
     try {
       const updatedDriver = { ...drivers.find((driver) => driver.driver_id === rowId), ...editedFields[rowId] };
-      const response = await fetch(`http://localhost:8070/api/driver/${rowId}`, {
+      const response = await fetch(`https://sripass.onrender.com/api/driver/${rowId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
