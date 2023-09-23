@@ -9,10 +9,10 @@ import {
 
 } from '@mui/material';
 import MainCard from 'components/MainCard';
-import CustomerTable from 'pages/dashboard/CustomerTable';
-import AddCustomer from 'pages/components-overview/AddCustomer';
 
-const CustomerPage = () => {
+
+
+const FareRevenuePage = () => {
 
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -24,7 +24,7 @@ const CustomerPage = () => {
                 </Grid>
                 <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
                     <Box sx={{ pt: 1, pr: 2 }}>
-                        <CustomerTable/>
+                        {/* <DriverTable/> */}
                     </Box>
                 </MainCard>
 
@@ -32,12 +32,12 @@ const CustomerPage = () => {
             <Grid item xs={12} md={5} lg={4}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Add /Register Passengers</Typography>
+                        <Typography variant="h5">Fare Revenue</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                    <AddCustomer/>
+                    {/* <AddDriver/> */}
                 </MainCard>
             </Grid>
 
@@ -45,7 +45,7 @@ const CustomerPage = () => {
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Passengers Report</Typography>
+                        <Typography variant="h5">Fare Revenue Report</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
@@ -56,7 +56,7 @@ const CustomerPage = () => {
             <Grid item xs={12} md={5} lg={4}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Passengers Journey Report</Typography>
+                        <Typography variant="h5">Fare Revenue Report</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
@@ -88,4 +88,4 @@ const CustomerPage = () => {
     );
 };
 
-export default CustomerPage;
+export default FareRevenuePage;
