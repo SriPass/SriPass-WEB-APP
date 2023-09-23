@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import MainCard from 'components/MainCard';
 import { message, Button, Form, Input, InputNumber } from 'antd';
 
