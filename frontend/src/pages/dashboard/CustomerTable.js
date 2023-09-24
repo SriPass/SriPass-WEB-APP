@@ -64,11 +64,10 @@ function CustomerTable() {
     setSelectedCustomerId(customerId);
 
     // Populate editedFields with the existing data for the selected customer
-    const customerToEdit = customers.find((customer) => customer.passengerId === customerId);
+    const customerToEdit = customers.find((customer) => customer._id === customerId);
     if (customerToEdit) {
       setEditedFields({
         [customerId]: {
-          passengerId: customerToEdit.passengerId,
           firstName: customerToEdit.firstName,
           lastName: customerToEdit.lastName,
           contactNumber: customerToEdit.contactNumber,
@@ -86,11 +85,11 @@ function CustomerTable() {
     setEditDialogOpen(false);
   };
 
-  const handleEditFieldChange = (rowId, fieldId, value) => {
+  const handleEditFieldChange = (customerId, fieldId, value) => {
     setEditedFields((prevEditedFields) => ({
       ...prevEditedFields,
-      [rowId]: {
-        ...prevEditedFields[rowId],
+      [customerId]: {
+        ...prevEditedFields[customerId],
         [fieldId]: value,
       },
     }));
@@ -106,28 +105,35 @@ function CustomerTable() {
       }
       const responseData = await response.json();
       console.log(responseData.message); // Log the success message
-      setCustomers(customers.filter((customer) => customer.passengerId !== customerId));
+      setCustomers(customers.filter((customer) => customer._id !== customerId));
       closeDeleteDialog();
     } catch (error) {
       console.error('Error deleting customer:', error);
     }
   };
 
-  const handleSaveEdit = async (rowId) => {
+  const handleSaveEdit = async (customerId) => {
     try {
-      const updatedCustomer = { ...customers.find((customer) => customer.passengerId === rowId), ...editedFields[rowId] };
-      const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${rowId}`, {
+      const editedCustomerFields = editedFields[customerId];
+      const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${customerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedCustomer),
+        body: JSON.stringify(editedCustomerFields),
       });
       if (!response.ok) {
         throw new Error('Failed to update customer');
       }
-      const updatedCustomers = customers.map((customer) => (customer.passengerId === rowId ? updatedCustomer : customer));
-      setCustomers(updatedCustomers);
+      const updatedCustomer = await response.json();
+
+      // Update the customers array with the edited data
+      setCustomers((prevCustomers) =>
+        prevCustomers.map((customer) =>
+          customer._id === customerId ? { ...customer, ...editedCustomerFields } : customer
+        )
+      );
+
       closeEditDialog();
     } catch (error) {
       console.error('Error updating customer:', error);
@@ -159,8 +165,8 @@ function CustomerTable() {
             </TableHead>
             <TableBody>
               {displayedCustomers.map((customer) => (
-                <TableRow key={customer.passengerId}>
-                  <TableCell>{customer.passengerId}</TableCell>
+                <TableRow key={customer._id}>
+                  <TableCell>{customer._id}</TableCell>
                   <TableCell>{customer.firstName}</TableCell>
                   <TableCell>{customer.lastName}</TableCell>
                   <TableCell>{customer.contactNumber}</TableCell>
@@ -170,7 +176,7 @@ function CustomerTable() {
                     <Button
                       variant="outlined"
                       color="secondary"
-                      onClick={() => openDeleteDialog(customer.passengerId)}
+                      onClick={() => openDeleteDialog(customer._id)}
                       style={{ marginRight: '8px' }}
                     >
                       Delete
@@ -178,7 +184,7 @@ function CustomerTable() {
                     <Button
                       variant="outlined"
                       color="primary"
-                      onClick={() => openEditDialog(customer.passengerId)}
+                      onClick={() => openEditDialog(customer._id)}
                     >
                       Edit
                     </Button>
@@ -233,15 +239,6 @@ function CustomerTable() {
         <DialogTitle id="form-dialog-title">Edit Customer</DialogTitle>
         <DialogContent>
           <DialogContentText>Edit customer details:</DialogContentText>
-          <TextField
-            label="Passenger ID"
-            value={editedFields[selectedCustomerId]?.passengerId || ''}
-            onChange={(e) =>
-              handleEditFieldChange(selectedCustomerId, 'passengerId', e.target.value)
-            }
-            fullWidth
-            margin="normal"
-          />
           <TextField
             label="First Name"
             value={editedFields[selectedCustomerId]?.firstName || ''}
