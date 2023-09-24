@@ -195,21 +195,29 @@ const AddBusSchedule = () => {
           </Select>
         </FormControl>
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <FormControl fullWidth margin="normal" variant="outlined" style={{ marginBottom: '10px' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} >
           <DateField label="Start Date" value={startDate} onChange={(newValue) => setStartDate(newValue)} />
         </LocalizationProvider>
+        </FormControl>
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <FormControl fullWidth margin="normal" variant="outlined" style={{ marginBottom: '10px' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} >
           <DateField label="End Date" value={endDate} onChange={(newValue) => setEndDate(newValue)} />
         </LocalizationProvider>
+        </FormControl>
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <FormControl fullWidth margin="normal" variant="outlined" style={{ marginBottom: '10px' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} >
           <TimePicker label="Start Time" value={startTime} onChange={(newValue) => setStartTime(newValue)} />
         </LocalizationProvider>
+        </FormControl>
 
+        <FormControl fullWidth margin="normal" variant="outlined" style={{ marginBottom: '10px' }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <TimePicker label="End Time" value={endTime} onChange={(newValue) => setEndTime(newValue)} />
         </LocalizationProvider>
+        </FormControl>
 
         <FormControl fullWidth margin="normal" variant="outlined">
           <InputLabel htmlFor="driverNo">Select Drivers</InputLabel>
