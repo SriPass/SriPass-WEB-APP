@@ -37,6 +37,18 @@ const RoutePage = () => {
     const [deleteConfirmation, setDeleteConfirmation] = useState(null);
     const [estimatedTime, setEstimatedTime] = useState('-');
     const [viewRouteDetails, setViewRouteDetails] = useState({ from: '-', to: '-' });
+    const [selectedRoute, setSelectedRoute] = useState(null);
+    const [viewDestinationsModal, setViewDestinationsModal] = useState(false);
+
+    const handleViewDestinations = (route) => {
+        setSelectedRoute(route);
+        setViewDestinationsModal(true);
+    };
+
+    const closeViewDestinationsModal = () => {
+        setSelectedRoute(null);
+        setViewDestinationsModal(false);
+    };
 
 
 
@@ -70,12 +82,15 @@ const RoutePage = () => {
     };
 
     const headCells = [
+
         { id: 'RouteNo', label: 'Route No' },
         { id: 'from', label: 'From' },
         { id: 'to', label: 'To' },
         { id: 'vehicleNo', label: 'Vehicle No' },
+        { id: 'destinations', label: 'Destinations' }, // Add this line
         { id: 'map', label: 'Map' },
         { id: 'actions', label: 'Actions' },
+
 
     ];
 
@@ -320,6 +335,13 @@ const RoutePage = () => {
                                                     <TableCell align="left">{row.from}</TableCell>
                                                     <TableCell align="left">{row.to}</TableCell>
                                                     <TableCell align="left">{row.vehicleNo}</TableCell>
+                                                    <TableCell align="left">
+                                                        <Button variant="outlined" onClick={() => handleViewDestinations(row)}>
+                                                            VIEW DESTINATIONS
+                                                        </Button>
+                                                    </TableCell>
+
+
 
                                                     <TableCell align="left">
                                                         {/* Add the "See" button */}
@@ -337,11 +359,11 @@ const RoutePage = () => {
                                                         </IconButton>
 
                                                     </TableCell> */}
-                                                     <TableCell align="left">
+                                                    <TableCell align="left">
                                                         <Button
                                                             variant="outlined"
                                                             color="secondary"
-                                                            onClick={() =>handleDelete(row)}
+                                                            onClick={() => handleDelete(row)}
                                                             style={{ marginRight: '8px' }}
                                                         >
                                                             Delete
@@ -370,7 +392,26 @@ const RoutePage = () => {
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
 
-
+                            {/* Modal to display destinations */}
+                            <Dialog open={viewDestinationsModal} onClose={closeViewDestinationsModal}>
+                                <DialogTitle>Destinations for Route {selectedRoute?.RouteNo}</DialogTitle>
+                                <DialogContent>
+                                    {selectedRoute?.destinations.map((destination, index) => (
+                                        <div key={index}>
+                                            <strong>Destination {index + 1}:</strong><br />
+                                            <strong>Start Point:</strong> {destination.startPoint}<br />
+                                            <strong>End Point:</strong> {destination.endPoint}<br />
+                                            <strong>Fare:</strong> {destination.fare}<br />
+                                            {index !== selectedRoute.destinations.length - 1 && <br />}
+                                        </div>
+                                    ))}
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={closeViewDestinationsModal} color="primary">
+                                        Close
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
                             {/* Edit Modal */}
                             <Dialog open={!!editingRoute} onClose={handleCloseEditModal}>
                                 <DialogTitle>Edit Route</DialogTitle>
@@ -501,6 +542,8 @@ const RoutePage = () => {
 
 
         </Grid>
+
+
     );
 };
 
