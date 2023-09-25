@@ -10,101 +10,41 @@ import {
   CarryOutOutlined,
   ScheduleOutlined,
   CarOutlined,
-  DollarCircleOutlined,
-  FileTextOutlined,
-  ContactsOutlined,
-  TeamOutlined,
   MoneyCollectOutlined,
-  SolutionOutlined,
-  ClusterOutlined,
-  ShopOutlined,
   UserSwitchOutlined
 } from '@ant-design/icons';
 
 const optionIcons = {
-  Passenger: <UserOutlined />,
-  Load: <CarryOutOutlined />,
-  Shipper: <ScheduleOutlined />,
-  Carrier: <CarOutlined />,
-  'Carrier Rate': <DollarCircleOutlined />,
-  Consigne: <FileTextOutlined />,
-  Contact: <ContactsOutlined />,
-  'Passenger Rate': <TeamOutlined />,
-  Driver: <UserSwitchOutlined />,
-  Expenses: <MoneyCollectOutlined />,
-  Pay: <DollarCircleOutlined />,
-  Supplier: <SolutionOutlined />,
-  Trailer: <ClusterOutlined />,
-  Truck: <ShopOutlined />,
+  
+  'Local Passengers': <UserOutlined /> ,
+  'Bus Scheduling': <CarryOutOutlined />,
+  'Route Management': <ScheduleOutlined />,
+  'Inspector Details': <CarOutlined />,
+  'Driver Details': <UserSwitchOutlined />,
+  'Fare Revenue Analysis' :<MoneyCollectOutlined /> 
 
-  'Add Passenger': <UserOutlined />,
-  'Add Load': <CarryOutOutlined />,
-  'Add Shipper': <ScheduleOutlined />,
-  'Add Carrier': <CarOutlined />,
-  'Add Carrier Rate': <DollarCircleOutlined />,
-  'Add Consigne': <FileTextOutlined />,
-  'Add Contact': <ContactsOutlined />,
-  'Add Passenger Rate': <TeamOutlined />,
-  'Add Driver': <UserSwitchOutlined />,
-  'Add Expenses': <MoneyCollectOutlined />,
-  'Add Pay': <DollarCircleOutlined />,
-  'Add Supplier': <SolutionOutlined />,
-  'Add Trailer': <ClusterOutlined />,
-  'Add Truck': <ShopOutlined />,
-  // ... Add icons for other options
 };
 
 const optionNavigation = {
-  'Carrier Rate': 'carrierrate',
-  'Passenger Rate': 'passengerrate',
-  // ... Add other navigation mappings here
-  'Add Passenger': 'addpassenger',
-  'Add Load': 'addload',
-  'Add Shipper': 'addshipper',
-  'Add Carrier': 'addcarrier',
-  'Add Carrier Rate': 'addcarrierrate',
-  'Add Consigne': 'addconsigne',
-  'Add Contact': 'addcontact',
-  'Add Passenger Rate': 'addpassengerrate',
-  'Add Driver': 'adddriver',
-  'Add Expenses': 'addexpenses',
-  'Add Pay': 'addpay',
-  'Add Supplier': 'addsupplier',
-  'Add Trailer': 'addtrailer',
-  'Add Truck': 'addtruck',
+  'Local Passengers': 'passenger',
+  'Bus Scheduling': 'bus',
+  'Route Management': 'route',
+  'Inspector Details': 'inspector',
+  'Driver Details': 'driver',
+  'Fare Revenue Analysis' : 'fareRevenue'
+ 
+ 
 };
 
 export default function FreeSolo() {
   const options = [
-    'Passenger',
-    'Load',
-    'Shipper',
-    'Carrier',
-    'Carrier Rate',
-    'Consigne',
-    'Contact',
-    'Passenger Rate',
-    'Driver',
-    'Expenses',
-    'Pay',
-    'Supplier',
-    'Trailer',
-    'Truck',
+    'Local Passengers',
+    'Bus Scheduling',
+    'Route Management',
+    'Inspector Details',
+    'Driver Details',
+    'Fare Revenue Analysis'
 
-    'Add Passenger',
-    'Add Load',
-    'Add Shipper',
-    'Add Carrier Rate',
-    'Add Consigne',
-    'Add Contact',
-    'Add Passenger Rate',
-    'Add Driver',
-    'Add Expenses',
-    'Add Pay',
-    'Add Supplier',
-    'Add Trailer',
-    'Add Truck',
-    // ... Other options
   ];
   const navigate = useNavigate();
 
