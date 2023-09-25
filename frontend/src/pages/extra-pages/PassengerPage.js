@@ -9,10 +9,10 @@ import {
 
 } from '@mui/material';
 import MainCard from 'components/MainCard';
-import CustomerTable from 'pages/dashboard/CustomerTable';
-import AddCustomer from 'pages/components-overview/AddCustomer';
+import PassengerTable from 'pages/dashboard/PassengerTable';
+import AddPassenger from 'pages/components-overview/AddPassenger';
 
-const CustomerPage = () => {
+const PassengerPage = () => {
 
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -24,7 +24,7 @@ const CustomerPage = () => {
                 </Grid>
                 <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
                     <Box sx={{ pt: 1, pr: 2 }}>
-                        <CustomerTable/>
+                        <PassengerTable/>
                     </Box>
                 </MainCard>
 
@@ -37,7 +37,7 @@ const CustomerPage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                    <AddCustomer/>
+                    <AddPassenger/>
                 </MainCard>
             </Grid>
 
@@ -88,4 +88,4 @@ const CustomerPage = () => {
     );
 };
 
-export default CustomerPage;
+export default PassengerPage;

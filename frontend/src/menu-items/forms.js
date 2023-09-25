@@ -38,10 +38,10 @@
 //   type: 'group',
 //   children: [
 //     // {
-//     //   id: 'util-addcustomer',
-//     //   title: 'Add Customer',
+//     //   id: 'util-addpassenger',
+//     //   title: 'Add Passenger',
 //     //   type: 'item',
-//     //   url: '/addcustomer',
+//     //   url: '/addpassenger',
 //     //   icon: icons.UserOutlined
 //     // },
 //     // {

@@ -9,13 +9,13 @@ import BusScheduleTable from 'pages/dashboard/BusScheduleTable'
 
 // render
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
-const CustomerPage = Loadable(lazy(() => import('pages/extra-pages/CustomerPage')));
+const PassengerPage = Loadable(lazy(() => import('pages/extra-pages/PassengerPage')));
 const DriverPage = Loadable(lazy(() => import('pages/extra-pages/DriverPage')));
 import InspectorPage from 'pages/extra-pages/InspectorPage';
 import FareRevenuePage from 'pages/extra-pages/FareRevenuePage';
 
 // render - utilities
-const AddCustomer = Loadable(lazy(() => import('pages/components-overview/AddCustomer')));
+const AddPassenger = Loadable(lazy(() => import('pages/components-overview/AddPassenger')));
 const AddDriver = Loadable(lazy(() => import('pages/components-overview/AddDriver')));
 import AddInspector from './../pages/components-overview/AddInspector';
 
@@ -42,8 +42,8 @@ const MainRoutes = {
 
     //tables
     {
-      path: 'customer',
-      element: <CustomerPage />
+      path: 'passenger',
+      element: <PassengerPage />
     },
     {
       path: 'driver',
@@ -67,8 +67,8 @@ const MainRoutes = {
     },
     //forms
     {
-      path: 'addcustomer',
-      element: <AddCustomer />
+      path: 'addpassenger',
+      element: <AddPassenger />
     },
     {
       path: 'adddriver',
