@@ -312,7 +312,14 @@ const RoutePage = () => {
             from: row.from,
             to: row.to,
         });
+
+        // Scroll to the map component
+        const mapComponent = document.getElementById("mapComponent");
+        if (mapComponent) {
+            mapComponent.scrollIntoView({ behavior: "smooth" });
+        }
     };
+
 
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -423,7 +430,7 @@ const RoutePage = () => {
                                     </tbody>
                                 </Table>
                             </TableContainer>
-
+                            <div id="mapComponent"></div>
                             <TablePagination
                                 rowsPerPageOptions={[5]} // Include 5 as an option
                                 component="div"
@@ -537,7 +544,7 @@ const RoutePage = () => {
                                                     <Button
                                                         variant="outlined"
                                                         color="error"
-                                                        style={{ marginBottom: '50px' , }}
+                                                        style={{ marginBottom: '50px', }}
                                                         onClick={() => handleDeleteDestination(index)}
                                                     >
                                                         Remove
@@ -602,19 +609,21 @@ const RoutePage = () => {
 
             {/* row 3 */}
             <Grid item xs={12} md={7} lg={8}>
+            
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Route</Typography>
+                        <Typography variant="h5" >Route</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
-                <MainCard sx={{ mt: 2 }} content={false}>
+                <MainCard sx={{ mt: 2 }} content={false} >
                     <Map
                         start={viewRoute ? viewRoute.from : null}
                         destination={viewRoute ? viewRoute.to : null}
                         onEstimatedTimeUpdate={(time) => setEstimatedTime(time)}
                     />
                 </MainCard>
+
             </Grid>
             <Grid item xs={12} md={5} lg={4}>
                 <Grid container alignItems="center" justifyContent="space-between">
