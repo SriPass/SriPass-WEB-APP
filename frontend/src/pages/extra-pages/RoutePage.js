@@ -374,13 +374,14 @@ const RoutePage = () => {
                                                 <TableRow key={row.RouteNo}>
 
                                                     <TableCell align="left">
-                                                    <Chip avatar={<Avatar>R</Avatar>} label={row.RouteNo} />
-    
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        </TableCell>
+                                                    <Chip
+    avatar={
+        <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
+    }
+    label={row.RouteNo}
+/>
+
+                                                    </TableCell>
                                                     <TableCell align="left">{row.from}</TableCell>
                                                     <TableCell align="left">{row.to}</TableCell>
                                                     <TableCell align="left">{row.vehicleNo}</TableCell>
@@ -399,7 +400,7 @@ const RoutePage = () => {
                                                             VIEW
                                                         </Button>
                                                     </TableCell>
-                                                   
+
                                                     <TableCell align="left">
                                                         <Button
                                                             variant="outlined"
@@ -550,7 +551,7 @@ const RoutePage = () => {
                                         color="primary"
                                         onClick={handleAddDestination}
                                     >
-                                          <AddIcon />
+                                        <AddIcon />
                                         Add Destination
                                     </Button>
                                 </DialogContent>
