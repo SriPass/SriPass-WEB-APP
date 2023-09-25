@@ -374,12 +374,12 @@ const RoutePage = () => {
                                                 <TableRow key={row.RouteNo}>
 
                                                     <TableCell align="left">
-                                                    <Chip
-    avatar={
-        <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
-    }
-    label={row.RouteNo}
-/>
+                                                        <Chip
+                                                            avatar={
+                                                                <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
+                                                            }
+                                                            label={row.RouteNo}
+                                                        />
 
                                                     </TableCell>
                                                     <TableCell align="left">{row.from}</TableCell>
@@ -537,7 +537,7 @@ const RoutePage = () => {
                                                     <Button
                                                         variant="outlined"
                                                         color="error"
-                                                        style={{ marginBottom: '20px' }}
+                                                        style={{ marginBottom: '50px' , }}
                                                         onClick={() => handleDeleteDestination(index)}
                                                     >
                                                         Remove
