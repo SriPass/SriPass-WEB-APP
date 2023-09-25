@@ -19,13 +19,13 @@ import {
 } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 
-function CustomerTable() {
-  const [customers, setCustomers] = useState([]);
+function PassengerTable() {
+  const [passengers, setPassengers] = useState([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deleteCustomerId, setDeleteCustomerId] = useState(null);
+  const [deletePassengerId, setDeletePassengerId] = useState(null);
 
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [selectedPassengerId, setSelectedPassengerId] = useState(null);
   const [editedFields, setEditedFields] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -37,41 +37,41 @@ function CustomerTable() {
       try {
         const response = await fetch('https://sripass.onrender.com/api/localpassengers');
         if (!response.ok) {
-          throw new Error('Failed to fetch customer data');
+          throw new Error('Failed to fetch passenger data');
         }
         const data = await response.json();
-        setCustomers(data);
+        setPassengers(data);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching customer data:', error);
+        console.error('Error fetching passenger data:', error);
         setIsLoading(false);
       }
     }
     fetchData();
   }, []);
 
-  const openDeleteDialog = (customerId) => {
-    setDeleteCustomerId(customerId);
+  const openDeleteDialog = (passengerId) => {
+    setDeletePassengerId(passengerId);
     setDeleteDialogOpen(true);
   };
 
   const closeDeleteDialog = () => {
-    setDeleteCustomerId(null);
+    setDeletePassengerId(null);
     setDeleteDialogOpen(false);
   };
 
-  const openEditDialog = (customerId) => {
-    setSelectedCustomerId(customerId);
+  const openEditDialog = (passengerId) => {
+    setSelectedPassengerId(passengerId);
 
-    // Populate editedFields with the existing data for the selected customer
-    const customerToEdit = customers.find((customer) => customer._id === customerId);
-    if (customerToEdit) {
+    // Populate editedFields with the existing data for the selected passenger
+    const passengerToEdit = passengers.find((passenger) => passenger._id === passengerId);
+    if (passengerToEdit) {
       setEditedFields({
-        [customerId]: {
-          firstName: customerToEdit.firstName,
-          lastName: customerToEdit.lastName,
-          contactNumber: customerToEdit.contactNumber,
-          address: customerToEdit.address,
+        [passengerId]: {
+          firstName: passengerToEdit.firstName,
+          lastName: passengerToEdit.lastName,
+          contactNumber: passengerToEdit.contactNumber,
+          address: passengerToEdit.address,
           // Add other fields as needed
         },
       });
@@ -81,69 +81,69 @@ function CustomerTable() {
   };
 
   const closeEditDialog = () => {
-    setSelectedCustomerId(null);
+    setSelectedPassengerId(null);
     setEditDialogOpen(false);
   };
 
-  const handleEditFieldChange = (customerId, fieldId, value) => {
+  const handleEditFieldChange = (passengerId, fieldId, value) => {
     setEditedFields((prevEditedFields) => ({
       ...prevEditedFields,
-      [customerId]: {
-        ...prevEditedFields[customerId],
+      [passengerId]: {
+        ...prevEditedFields[passengerId],
         [fieldId]: value,
       },
     }));
   };
 
-  const handleDelete = async (customerId) => {
+  const handleDelete = async (passengerId) => {
     try {
-      const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${customerId}`, {
+      const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${passengerId}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Failed to delete customer');
+        throw new Error('Failed to delete passenger');
       }
       const responseData = await response.json();
       console.log(responseData.message); // Log the success message
-      setCustomers(customers.filter((customer) => customer._id !== customerId));
+      setPassengers(passengers.filter((passenger) => passenger._id !== passengerId));
       closeDeleteDialog();
     } catch (error) {
-      console.error('Error deleting customer:', error);
+      console.error('Error deleting passenger:', error);
     }
   };
 
-  const handleSaveEdit = async (customerId) => {
+  const handleSaveEdit = async (passengerId) => {
     try {
-      const editedCustomerFields = editedFields[customerId];
-      const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${customerId}`, {
+      const editedPassengerFields = editedFields[passengerId];
+      const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${passengerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editedCustomerFields),
+        body: JSON.stringify(editedPassengerFields),
       });
       if (!response.ok) {
-        throw new Error('Failed to update customer');
+        throw new Error('Failed to update passenger');
       }
-      const updatedCustomer = await response.json();
+      
 
-      // Update the customers array with the edited data
-      setCustomers((prevCustomers) =>
-        prevCustomers.map((customer) =>
-          customer._id === customerId ? { ...customer, ...editedCustomerFields } : customer
+      // Update the passengers array with the edited data
+      setPassengers((prevPassengers) =>
+        prevPassengers.map((passenger) =>
+          passenger._id === passengerId ? { ...passenger, ...editedPassengerFields } : passenger
         )
       );
 
       closeEditDialog();
     } catch (error) {
-      console.error('Error updating customer:', error);
+      console.error('Error updating passenger:', error);
     }
   };
 
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
-  const displayedCustomers = customers.slice(startIndex, endIndex);
+  const displayedPassengers = passengers.slice(startIndex, endIndex);
 
   return (
     <div>
@@ -164,19 +164,19 @@ function CustomerTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {displayedCustomers.map((customer) => (
-                <TableRow key={customer._id}>
-                  <TableCell>{customer._id}</TableCell>
-                  <TableCell>{customer.firstName}</TableCell>
-                  <TableCell>{customer.lastName}</TableCell>
-                  <TableCell>{customer.contactNumber}</TableCell>
-                  <TableCell>{customer.address}</TableCell>
+              {displayedPassengers.map((passenger) => (
+                <TableRow key={passenger._id}>
+                  <TableCell>{passenger._id}</TableCell>
+                  <TableCell>{passenger.firstName}</TableCell>
+                  <TableCell>{passenger.lastName}</TableCell>
+                  <TableCell>{passenger.contactNumber}</TableCell>
+                  <TableCell>{passenger.address}</TableCell>
                   {/* Add other table cells for additional columns */}
                   <TableCell>
                     <Button
                       variant="outlined"
                       color="secondary"
-                      onClick={() => openDeleteDialog(customer._id)}
+                      onClick={() => openDeleteDialog(passenger._id)}
                       style={{ marginRight: '8px' }}
                     >
                       Delete
@@ -184,7 +184,7 @@ function CustomerTable() {
                     <Button
                       variant="outlined"
                       color="primary"
-                      onClick={() => openEditDialog(customer._id)}
+                      onClick={() => openEditDialog(passenger._id)}
                     >
                       Edit
                     </Button>
@@ -199,7 +199,7 @@ function CustomerTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 50]}
         component="div"
-        count={customers.length}
+        count={passengers.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={(e, newPage) => setPage(newPage)}
@@ -215,17 +215,17 @@ function CustomerTable() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Delete Customer</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Delete Passenger</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this customer?
+            Are you sure you want to delete this passenger?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDeleteDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => handleDelete(deleteCustomerId)} color="primary" autoFocus>
+          <Button onClick={() => handleDelete(deletePassengerId)} color="primary" autoFocus>
             Delete
           </Button>
         </DialogActions>
@@ -236,41 +236,41 @@ function CustomerTable() {
         onClose={closeEditDialog}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Edit Customer</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Passenger</DialogTitle>
         <DialogContent>
-          <DialogContentText>Edit customer details:</DialogContentText>
+          <DialogContentText>Edit passenger details:</DialogContentText>
           <TextField
             label="First Name"
-            value={editedFields[selectedCustomerId]?.firstName || ''}
+            value={editedFields[selectedPassengerId]?.firstName || ''}
             onChange={(e) =>
-              handleEditFieldChange(selectedCustomerId, 'firstName', e.target.value)
+              handleEditFieldChange(selectedPassengerId, 'firstName', e.target.value)
             }
             fullWidth
             margin="normal"
           />
           <TextField
             label="Last Name"
-            value={editedFields[selectedCustomerId]?.lastName || ''}
+            value={editedFields[selectedPassengerId]?.lastName || ''}
             onChange={(e) =>
-              handleEditFieldChange(selectedCustomerId, 'lastName', e.target.value)
+              handleEditFieldChange(selectedPassengerId, 'lastName', e.target.value)
             }
             fullWidth
             margin="normal"
           />
           <TextField
             label="Contact Number"
-            value={editedFields[selectedCustomerId]?.contactNumber || ''}
+            value={editedFields[selectedPassengerId]?.contactNumber || ''}
             onChange={(e) =>
-              handleEditFieldChange(selectedCustomerId, 'contactNumber', e.target.value)
+              handleEditFieldChange(selectedPassengerId, 'contactNumber', e.target.value)
             }
             fullWidth
             margin="normal"
           />
           <TextField
             label="Address"
-            value={editedFields[selectedCustomerId]?.address || ''}
+            value={editedFields[selectedPassengerId]?.address || ''}
             onChange={(e) =>
-              handleEditFieldChange(selectedCustomerId, 'address', e.target.value)
+              handleEditFieldChange(selectedPassengerId, 'address', e.target.value)
             }
             fullWidth
             margin="normal"
@@ -281,7 +281,7 @@ function CustomerTable() {
           <Button onClick={closeEditDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => handleSaveEdit(selectedCustomerId)} color="primary">
+          <Button onClick={() => handleSaveEdit(selectedPassengerId)} color="primary">
             Save
           </Button>
         </DialogActions>
@@ -290,4 +290,4 @@ function CustomerTable() {
   );
 }
 
-export default CustomerTable;
+export default PassengerTable;

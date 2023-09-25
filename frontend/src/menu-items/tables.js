@@ -42,10 +42,10 @@ const tabales = {
   type: 'group',
   children: [
     {
-      id: 'customer-page',
+      id: 'passenger-page',
       title: 'Local Passengers',
       type: 'item',
-      url: '/customer',
+      url: '/passenger',
       icon: icons.UserOutlined,
     },
     {

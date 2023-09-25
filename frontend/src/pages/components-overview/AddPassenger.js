@@ -6,7 +6,7 @@ import { message } from 'antd';
 
 
 
-const AddCustomer = () => {
+const AddPassenger = () => {
   const key = 'updatable'; // Define a unique key for the message
 
   const [values, setValues] = useState({
@@ -177,4 +177,4 @@ const AddCustomer = () => {
     </MainCard>
   );
 };
-export default AddCustomer;
+export default AddPassenger;
