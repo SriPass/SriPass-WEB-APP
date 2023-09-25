@@ -305,8 +305,14 @@ const RoutePage = () => {
 
     // Filter data based on the search query
     const filteredData = data.filter((item) =>
-        item.RouteNo.toLowerCase().includes(searchQuery.toLowerCase())
+        item.RouteNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.from.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.to.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.vehicleNo.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+
+
     const [viewRoute, setViewRoute] = useState(null);
 
     const handleViewRoute = (row) => {
@@ -337,278 +343,278 @@ const RoutePage = () => {
                     <Box sx={{ pt: 1, pr: 2 }}>
                         <Box>
 
-                             {/* Conditionally render a loading spinner or the table */}
-                             {loading ? (
+                            {/* Conditionally render a loading spinner or the table */}
+                            {loading ? (
                                 <Box
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                                height="300px" // Adjust the height as needed
-                            >
-                                <CircularProgress />
-                            </Box>// Render a spinner when loading is true
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    height="300px" // Adjust the height as needed
+                                >
+                                    <CircularProgress />
+                                </Box>// Render a spinner when loading is true
                             ) : (
                                 <>
-                                     <div
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    marginTop: '20px',
-                                    marginBottom: '30px',
-                                }}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <TextField
-                                        label="Search"
-                                        variant="outlined"
-                                        size="small"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <SearchIcon />
-                                                </InputAdornment>
-                                            ),
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                            marginTop: '20px',
+                                            marginBottom: '30px',
                                         }}
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Table */}
-                            <TableContainer>
-                                <Table aria-labelledby="tableTitle">
-                                    <TableHead>
-                                        <TableRow>
-                                            {headCells.map((headCell) => (
-                                                <TableCell key={headCell.id} align="left">
-                                                    {headCell.label}
-                                                </TableCell>
-                                            ))}
-                                        </TableRow>
-                                    </TableHead>
-                                    {/* Render table rows */}
-                                    <tbody>
-                                        {filteredData
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((row) => (
-                                                <TableRow key={row.RouteNo}>
-
-                                                    <TableCell align="left">
-                                                        <Chip
-                                                            avatar={
-                                                                <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
-                                                            }
-                                                            label={row.RouteNo}
-                                                        />
-
-                                                    </TableCell>
-                                                    <TableCell align="left">{row.from}</TableCell>
-                                                    <TableCell align="left">{row.to}</TableCell>
-                                                    <TableCell align="left">{row.vehicleNo}</TableCell>
-                                                    <TableCell align="left">
-                                                        <Button variant="outlined" onClick={() => handleViewDestinations(row)}>
-                                                            VIEW DESTINATIONS
-                                                        </Button>
-                                                    </TableCell>
-
-
-
-                                                    <TableCell align="left">
-                                                        {/* Add the "See" button */}
-                                                        {/* Change the "See" text to a Button */}
-                                                        <Button variant="outlined" onClick={() => handleViewRoute(row)}>
-                                                            VIEW
-                                                        </Button>
-                                                    </TableCell>
-
-                                                    <TableCell align="left">
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="error"
-                                                            onClick={() => handleDelete(row)}
-                                                            style={{ marginRight: '8px' }}
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="primary"
-                                                            onClick={() => handleEdit(row)}
-                                                        >
-                                                            Edit
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                    </tbody>
-                                </Table>
-                            </TableContainer>
-                            <div id="mapComponent"></div>
-                            <TablePagination
-                                rowsPerPageOptions={[5]} // Include 5 as an option
-                                component="div"
-                                count={filteredData.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-
-                            {/* Modal to display destinations */}
-                            <Dialog open={viewDestinationsModal} onClose={closeViewDestinationsModal}>
-                                <DialogTitle>Destinations for Route {selectedRoute?.RouteNo}</DialogTitle>
-                                <DialogContent>
-                                    {selectedRoute?.destinations && selectedRoute.destinations.length > 0 ? (
-                                        selectedRoute.destinations.map((destination, index) => (
-                                            <div key={index}>
-                                                <strong>Destination {index + 1}:</strong><br />
-                                                <strong>Start Point:</strong> {destination.startPoint}<br />
-                                                <strong>End Point:</strong> {destination.endPoint}<br />
-                                                <strong>Fare:</strong> LKR {destination.fare}<br />
-                                                {index !== selectedRoute.destinations.length - 1 && <br />}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <div style={{ color: 'gray' }}>No destinations available for this route.</div>
-                                    )}
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={closeViewDestinationsModal} color="primary">
-                                        Close
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
-
-                            {/* Edit Modal */}
-
-                            <Dialog open={!!editingRoute} onClose={handleCloseEditModal}>
-                                <DialogTitle>Edit Route</DialogTitle>
-                                <DialogContent style={{ padding: '30px' }}>
-                                    {/* Edit form fields go here */}
-                                    {/* Example: */}
-                                    <TextField
-                                        label="Route No"
-                                        variant="outlined"
-                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
-                                        value={editingRoute ? editingRoute.RouteNo : ''}
-                                        onChange={(e) =>
-                                            setEditingRoute({ ...editingRoute, RouteNo: e.target.value })
-                                        }
-                                    />
-                                    <TextField
-                                        label="From"
-                                        variant="outlined"
-                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
-                                        value={editingRoute ? editingRoute.from : ''}
-                                        onChange={(e) => setEditingRoute({ ...editingRoute, from: e.target.value })}
-                                    />
-                                    <TextField
-                                        label="To"
-                                        variant="outlined"
-                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
-                                        value={editingRoute ? editingRoute.to : ''}
-                                        onChange={(e) => setEditingRoute({ ...editingRoute, to: e.target.value })}
-                                    />
-                                    <TextField
-                                        label="Vehicle No"
-                                        variant="outlined"
-                                        style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
-                                        value={editingRoute ? editingRoute.vehicleNo : ''}
-                                        onChange={(e) =>
-                                            setEditingRoute({ ...editingRoute, vehicleNo: e.target.value })
-                                        }
-                                    />
-
-
-                                    {editingRoute && editingRoute.destinations && (
-                                        <div>
-                                            <Typography variant="h6" style={{ marginBottom: '20px' }}>Destinations</Typography>
-                                            {editingRoute.destinations.map((destination, index) => (
-                                                <div key={index}>
-                                                    {/* Add a delete button for each destination */}
-
-                                                    <TextField
-                                                        label={`Start Point ${index + 1}`}
-                                                        variant="outlined"
-                                                        style={{ marginBottom: '20px', marginRight: '20px' }}
-                                                        value={destination.startPoint}
-                                                        onChange={(e) =>
-                                                            handleDestinationChange(index, 'startPoint', e.target.value)
-                                                        }
-                                                    />
-                                                    <TextField
-                                                        label={`End Point ${index + 1}`}
-                                                        variant="outlined"
-                                                        style={{ marginBottom: '20px', marginRight: '20px' }}
-                                                        value={destination.endPoint}
-                                                        onChange={(e) =>
-                                                            handleDestinationChange(index, 'endPoint', e.target.value)
-                                                        }
-                                                    />
-                                                    <TextField
-                                                        label={`Fare ${index + 1}`}
-                                                        variant="outlined"
-                                                        style={{ marginBottom: '20px', marginRight: '20px' }}
-                                                        value={destination.fare}
-                                                        onChange={(e) =>
-                                                            handleDestinationChange(index, 'fare', e.target.value)
-                                                        }
-                                                    />
-                                                    <Button
-                                                        variant="outlined"
-                                                        color="error"
-                                                        style={{ marginBottom: '50px', }}
-                                                        onClick={() => handleDeleteDestination(index)}
-                                                    >
-                                                        Remove
-                                                    </Button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={handleAddDestination}
                                     >
-                                        <AddIcon />
-                                        Add Destination
-                                    </Button>
-                                </DialogContent>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <TextField
+                                                label="Search"
+                                                variant="outlined"
+                                                size="small"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <SearchIcon />
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
 
-                                <DialogActions>
-                                    <Button onClick={handleCloseEditModal} color="primary">
-                                        Cancel
-                                    </Button>
-                                    <Button onClick={handleSaveEdit} color="primary">
-                                        Save
-                                    </Button>
-                                </DialogActions>
+                                    {/* Table */}
+                                    <TableContainer>
+                                        <Table aria-labelledby="tableTitle">
+                                            <TableHead>
+                                                <TableRow>
+                                                    {headCells.map((headCell) => (
+                                                        <TableCell key={headCell.id} align="left">
+                                                            {headCell.label}
+                                                        </TableCell>
+                                                    ))}
+                                                </TableRow>
+                                            </TableHead>
+                                            {/* Render table rows */}
+                                            <tbody>
+                                                {filteredData
+                                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                    .map((row) => (
+                                                        <TableRow key={row.RouteNo}>
 
-                            </Dialog>
+                                                            <TableCell align="left">
+                                                                <Chip
+                                                                    avatar={
+                                                                        <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
+                                                                    }
+                                                                    label={row.RouteNo}
+                                                                />
+
+                                                            </TableCell>
+                                                            <TableCell align="left">{row.from}</TableCell>
+                                                            <TableCell align="left">{row.to}</TableCell>
+                                                            <TableCell align="left">{row.vehicleNo}</TableCell>
+                                                            <TableCell align="left">
+                                                                <Button variant="outlined" onClick={() => handleViewDestinations(row)}>
+                                                                    VIEW DESTINATIONS
+                                                                </Button>
+                                                            </TableCell>
 
 
-                            {/* Delete Confirmation Dialog */}
-                            <Dialog open={!!deleteConfirmation} onClose={() => setDeleteConfirmation(null)}>
-                                <DialogTitle>Confirm Delete</DialogTitle>
-                                <DialogContent>
-                                    Are you sure you want to delete this route?
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={() => setDeleteConfirmation(null)} color="primary">
-                                        Cancel
-                                    </Button>
-                                    <Button onClick={confirmDelete} color="primary">
-                                        Delete
-                                    </Button>
-                                </DialogActions>
-                            </Dialog>
+
+                                                            <TableCell align="left">
+                                                                {/* Add the "See" button */}
+                                                                {/* Change the "See" text to a Button */}
+                                                                <Button variant="outlined" onClick={() => handleViewRoute(row)}>
+                                                                    VIEW
+                                                                </Button>
+                                                            </TableCell>
+
+                                                            <TableCell align="left">
+                                                                <Button
+                                                                    variant="outlined"
+                                                                    color="error"
+                                                                    onClick={() => handleDelete(row)}
+                                                                    style={{ marginRight: '8px' }}
+                                                                >
+                                                                    Delete
+                                                                </Button>
+                                                                <Button
+                                                                    variant="outlined"
+                                                                    color="primary"
+                                                                    onClick={() => handleEdit(row)}
+                                                                >
+                                                                    Edit
+                                                                </Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                            </tbody>
+                                        </Table>
+                                    </TableContainer>
+                                    <div id="mapComponent"></div>
+                                    <TablePagination
+                                        rowsPerPageOptions={[5]} // Include 5 as an option
+                                        component="div"
+                                        count={filteredData.length}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        onPageChange={handleChangePage}
+                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                    />
+
+                                    {/* Modal to display destinations */}
+                                    <Dialog open={viewDestinationsModal} onClose={closeViewDestinationsModal}>
+                                        <DialogTitle>Destinations for Route {selectedRoute?.RouteNo}</DialogTitle>
+                                        <DialogContent>
+                                            {selectedRoute?.destinations && selectedRoute.destinations.length > 0 ? (
+                                                selectedRoute.destinations.map((destination, index) => (
+                                                    <div key={index}>
+                                                        <strong>Destination {index + 1}:</strong><br />
+                                                        <strong>Start Point:</strong> {destination.startPoint}<br />
+                                                        <strong>End Point:</strong> {destination.endPoint}<br />
+                                                        <strong>Fare:</strong> LKR {destination.fare}<br />
+                                                        {index !== selectedRoute.destinations.length - 1 && <br />}
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div style={{ color: 'gray' }}>No destinations available for this route.</div>
+                                            )}
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={closeViewDestinationsModal} color="primary">
+                                                Close
+                                            </Button>
+                                        </DialogActions>
+                                    </Dialog>
+
+                                    {/* Edit Modal */}
+
+                                    <Dialog open={!!editingRoute} onClose={handleCloseEditModal}>
+                                        <DialogTitle>Edit Route</DialogTitle>
+                                        <DialogContent style={{ padding: '30px' }}>
+                                            {/* Edit form fields go here */}
+                                            {/* Example: */}
+                                            <TextField
+                                                label="Route No"
+                                                variant="outlined"
+                                                style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                                value={editingRoute ? editingRoute.RouteNo : ''}
+                                                onChange={(e) =>
+                                                    setEditingRoute({ ...editingRoute, RouteNo: e.target.value })
+                                                }
+                                            />
+                                            <TextField
+                                                label="From"
+                                                variant="outlined"
+                                                style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                                value={editingRoute ? editingRoute.from : ''}
+                                                onChange={(e) => setEditingRoute({ ...editingRoute, from: e.target.value })}
+                                            />
+                                            <TextField
+                                                label="To"
+                                                variant="outlined"
+                                                style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                                value={editingRoute ? editingRoute.to : ''}
+                                                onChange={(e) => setEditingRoute({ ...editingRoute, to: e.target.value })}
+                                            />
+                                            <TextField
+                                                label="Vehicle No"
+                                                variant="outlined"
+                                                style={{ marginBottom: '20px', marginRight: '20px' }} // Add margin or padding as needed
+                                                value={editingRoute ? editingRoute.vehicleNo : ''}
+                                                onChange={(e) =>
+                                                    setEditingRoute({ ...editingRoute, vehicleNo: e.target.value })
+                                                }
+                                            />
+
+
+                                            {editingRoute && editingRoute.destinations && (
+                                                <div>
+                                                    <Typography variant="h6" style={{ marginBottom: '20px' }}>Destinations</Typography>
+                                                    {editingRoute.destinations.map((destination, index) => (
+                                                        <div key={index}>
+                                                            {/* Add a delete button for each destination */}
+
+                                                            <TextField
+                                                                label={`Start Point ${index + 1}`}
+                                                                variant="outlined"
+                                                                style={{ marginBottom: '20px', marginRight: '20px' }}
+                                                                value={destination.startPoint}
+                                                                onChange={(e) =>
+                                                                    handleDestinationChange(index, 'startPoint', e.target.value)
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                label={`End Point ${index + 1}`}
+                                                                variant="outlined"
+                                                                style={{ marginBottom: '20px', marginRight: '20px' }}
+                                                                value={destination.endPoint}
+                                                                onChange={(e) =>
+                                                                    handleDestinationChange(index, 'endPoint', e.target.value)
+                                                                }
+                                                            />
+                                                            <TextField
+                                                                label={`Fare ${index + 1}`}
+                                                                variant="outlined"
+                                                                style={{ marginBottom: '20px', marginRight: '20px' }}
+                                                                value={destination.fare}
+                                                                onChange={(e) =>
+                                                                    handleDestinationChange(index, 'fare', e.target.value)
+                                                                }
+                                                            />
+                                                            <Button
+                                                                variant="outlined"
+                                                                color="error"
+                                                                style={{ marginBottom: '50px', }}
+                                                                onClick={() => handleDeleteDestination(index)}
+                                                            >
+                                                                Remove
+                                                            </Button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            <Button
+                                                variant="outlined"
+                                                color="primary"
+                                                onClick={handleAddDestination}
+                                            >
+                                                <AddIcon />
+                                                Add Destination
+                                            </Button>
+                                        </DialogContent>
+
+                                        <DialogActions>
+                                            <Button onClick={handleCloseEditModal} color="primary">
+                                                Cancel
+                                            </Button>
+                                            <Button onClick={handleSaveEdit} color="primary">
+                                                Save
+                                            </Button>
+                                        </DialogActions>
+
+                                    </Dialog>
+
+
+                                    {/* Delete Confirmation Dialog */}
+                                    <Dialog open={!!deleteConfirmation} onClose={() => setDeleteConfirmation(null)}>
+                                        <DialogTitle>Confirm Delete</DialogTitle>
+                                        <DialogContent>
+                                            Are you sure you want to delete this route?
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={() => setDeleteConfirmation(null)} color="primary">
+                                                Cancel
+                                            </Button>
+                                            <Button onClick={confirmDelete} color="primary">
+                                                Delete
+                                            </Button>
+                                        </DialogActions>
+                                    </Dialog>
                                 </>
                             )}
                             {/* Search and Add Button */}
-                          
+
                         </Box>
                     </Box>
                 </MainCard>
@@ -628,7 +634,7 @@ const RoutePage = () => {
 
             {/* row 3 */}
             <Grid item xs={12} md={7} lg={8}>
-            
+
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h5" >Route</Typography>
