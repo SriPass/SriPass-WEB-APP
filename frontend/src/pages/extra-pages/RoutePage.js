@@ -21,6 +21,8 @@ import {
     Typography
 
 } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
 import MainCard from 'components/MainCard';
 import Map from 'pages/components-overview/Map';
 import AddRoute from 'pages/components-overview/AddRoute';
@@ -370,7 +372,15 @@ const RoutePage = () => {
                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                             .map((row) => (
                                                 <TableRow key={row.RouteNo}>
-                                                    <TableCell align="left">{row.RouteNo}</TableCell>
+
+                                                    <TableCell align="left">
+                                                    <Chip avatar={<Avatar>R</Avatar>} label={row.RouteNo} />
+    
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        </TableCell>
                                                     <TableCell align="left">{row.from}</TableCell>
                                                     <TableCell align="left">{row.to}</TableCell>
                                                     <TableCell align="left">{row.vehicleNo}</TableCell>
