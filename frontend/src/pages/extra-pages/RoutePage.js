@@ -18,7 +18,8 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Typography
+    Typography,
+    CircularProgress
 
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
@@ -30,8 +31,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { message } from 'antd';
 import { Add as AddIcon } from '@mui/icons-material';
 
+
 const RoutePage = () => {
 
+    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -83,7 +86,9 @@ const RoutePage = () => {
     };
 
 
-
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
 
     useEffect(() => {
@@ -95,16 +100,14 @@ const RoutePage = () => {
                 }
                 const data = await response.json();
                 setData(data);
+                setLoading(false); // Set loading to false when data is fetched
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setLoading(false); // Set loading to false on error as well
             }
         };
         fetchData();
     }, []);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
@@ -333,8 +336,20 @@ const RoutePage = () => {
                 <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
                     <Box sx={{ pt: 1, pr: 2 }}>
                         <Box>
-                            {/* Search and Add Button */}
-                            <div
+
+                             {/* Conditionally render a loading spinner or the table */}
+                             {loading ? (
+                                <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                height="300px" // Adjust the height as needed
+                            >
+                                <CircularProgress />
+                            </Box>// Render a spinner when loading is true
+                            ) : (
+                                <>
+                                     <div
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -590,6 +605,10 @@ const RoutePage = () => {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
+                                </>
+                            )}
+                            {/* Search and Add Button */}
+                          
                         </Box>
                     </Box>
                 </MainCard>
