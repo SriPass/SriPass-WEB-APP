@@ -50,7 +50,34 @@ const RoutePage = () => {
         setViewDestinationsModal(false);
     };
 
+    const handleAddDestination = () => {
+        // Create a copy of the editingRoute
+        const updatedRoute = { ...editingRoute };
 
+        // Create a new destination object with initial values
+        const newDestination = {
+            startPoint: '',
+            endPoint: '',
+            fare: '',
+        };
+
+        // Append the new destination to the destinations array
+        updatedRoute.destinations.push(newDestination);
+
+        // Update the editingRoute state
+        setEditingRoute(updatedRoute);
+    };
+
+    const handleDeleteDestination = (index) => {
+        // Create a copy of the editingRoute
+        const updatedRoute = { ...editingRoute };
+
+        // Remove the destination at the specified index
+        updatedRoute.destinations.splice(index, 1);
+
+        // Update the editingRoute state
+        setEditingRoute(updatedRoute);
+    };
 
 
 
@@ -172,6 +199,17 @@ const RoutePage = () => {
 
     const handleCloseEditModal = () => {
         setEditingRoute(null);
+    };
+
+    const handleDestinationChange = (index, field, value) => {
+        // Create a copy of the editingRoute
+        const updatedRoute = { ...editingRoute };
+
+        // Update the specific destination field
+        updatedRoute.destinations[index][field] = value;
+
+        // Update the editingRoute state
+        setEditingRoute(updatedRoute);
     };
 
     const handleSaveEdit = () => {
@@ -350,19 +388,11 @@ const RoutePage = () => {
                                                             VIEW
                                                         </Button>
                                                     </TableCell>
-                                                    {/* <TableCell align="left">
-                                                        <IconButton onClick={() => handleEdit(row)}>
-                                                            <EditIcon />
-                                                        </IconButton>
-                                                        <IconButton onClick={() => handleDelete(row)}>
-                                                            <DeleteIcon />
-                                                        </IconButton>
-
-                                                    </TableCell> */}
+                                                   
                                                     <TableCell align="left">
                                                         <Button
                                                             variant="outlined"
-                                                            color="secondary"
+                                                            color="error"
                                                             onClick={() => handleDelete(row)}
                                                             style={{ marginRight: '8px' }}
                                                         >
@@ -396,15 +426,19 @@ const RoutePage = () => {
                             <Dialog open={viewDestinationsModal} onClose={closeViewDestinationsModal}>
                                 <DialogTitle>Destinations for Route {selectedRoute?.RouteNo}</DialogTitle>
                                 <DialogContent>
-                                    {selectedRoute?.destinations.map((destination, index) => (
-                                        <div key={index}>
-                                            <strong>Destination {index + 1}:</strong><br />
-                                            <strong>Start Point:</strong> {destination.startPoint}<br />
-                                            <strong>End Point:</strong> {destination.endPoint}<br />
-                                            <strong>Fare:</strong> {destination.fare}<br />
-                                            {index !== selectedRoute.destinations.length - 1 && <br />}
-                                        </div>
-                                    ))}
+                                    {selectedRoute?.destinations && selectedRoute.destinations.length > 0 ? (
+                                        selectedRoute.destinations.map((destination, index) => (
+                                            <div key={index}>
+                                                <strong>Destination {index + 1}:</strong><br />
+                                                <strong>Start Point:</strong> {destination.startPoint}<br />
+                                                <strong>End Point:</strong> {destination.endPoint}<br />
+                                                <strong>Fare:</strong> LKR {destination.fare}<br />
+                                                {index !== selectedRoute.destinations.length - 1 && <br />}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div>No destinations available for this route.</div>
+                                    )}
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={closeViewDestinationsModal} color="primary">
@@ -412,7 +446,9 @@ const RoutePage = () => {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
+
                             {/* Edit Modal */}
+
                             <Dialog open={!!editingRoute} onClose={handleCloseEditModal}>
                                 <DialogTitle>Edit Route</DialogTitle>
                                 <DialogContent style={{ padding: '30px' }}>
@@ -450,7 +486,63 @@ const RoutePage = () => {
                                             setEditingRoute({ ...editingRoute, vehicleNo: e.target.value })
                                         }
                                     />
+
+
+                                    {editingRoute && editingRoute.destinations && (
+                                        <div>
+                                            <Typography variant="h6" style={{ marginBottom: '20px' }}>Destinations</Typography>
+                                            {editingRoute.destinations.map((destination, index) => (
+                                                <div key={index}>
+                                                    {/* Add a delete button for each destination */}
+
+                                                    <TextField
+                                                        label={`Start Point ${index + 1}`}
+                                                        variant="outlined"
+                                                        style={{ marginBottom: '20px', marginRight: '20px' }}
+                                                        value={destination.startPoint}
+                                                        onChange={(e) =>
+                                                            handleDestinationChange(index, 'startPoint', e.target.value)
+                                                        }
+                                                    />
+                                                    <TextField
+                                                        label={`End Point ${index + 1}`}
+                                                        variant="outlined"
+                                                        style={{ marginBottom: '20px', marginRight: '20px' }}
+                                                        value={destination.endPoint}
+                                                        onChange={(e) =>
+                                                            handleDestinationChange(index, 'endPoint', e.target.value)
+                                                        }
+                                                    />
+                                                    <TextField
+                                                        label={`Fare ${index + 1}`}
+                                                        variant="outlined"
+                                                        style={{ marginBottom: '20px', marginRight: '20px' }}
+                                                        value={destination.fare}
+                                                        onChange={(e) =>
+                                                            handleDestinationChange(index, 'fare', e.target.value)
+                                                        }
+                                                    />
+                                                    <Button
+                                                        variant="outlined"
+                                                        color="error"
+                                                        style={{ marginBottom: '20px' }}
+                                                        onClick={() => handleDeleteDestination(index)}
+                                                    >
+                                                        Remove
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={handleAddDestination}
+                                    >
+                                        Add Destination
+                                    </Button>
                                 </DialogContent>
+
                                 <DialogActions>
                                     <Button onClick={handleCloseEditModal} color="primary">
                                         Cancel
@@ -459,6 +551,7 @@ const RoutePage = () => {
                                         Save
                                     </Button>
                                 </DialogActions>
+
                             </Dialog>
 
 
