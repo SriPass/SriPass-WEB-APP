@@ -168,7 +168,7 @@ function DriverTable() {
                   <TableCell>
                     <Button
                       variant="outlined"
-                      color="secondary"
+                      color="error"
                       onClick={() => openDeleteDialog(driver._id)}
                       style={{ marginRight: '8px' }}
                     >
