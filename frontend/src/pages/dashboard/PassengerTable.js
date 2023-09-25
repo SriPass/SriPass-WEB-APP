@@ -175,7 +175,7 @@ function PassengerTable() {
                   <TableCell>
                     <Button
                       variant="outlined"
-                      color="secondary"
+                      color="error"
                       onClick={() => openDeleteDialog(passenger._id)}
                       style={{ marginRight: '8px' }}
                     >

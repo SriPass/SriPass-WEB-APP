@@ -158,7 +158,7 @@ const RoutePage = () => {
                       <TableCell align="left">
                         <Button
                           variant="outlined"
-                          color="secondary"
+                          color="error"
                           onClick={() => handleDelete(row)}
                           style={{ marginRight: '8px' }}
                         >
