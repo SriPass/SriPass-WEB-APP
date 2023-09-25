@@ -26,6 +26,7 @@ import Map from 'pages/components-overview/Map';
 import AddRoute from 'pages/components-overview/AddRoute';
 import SearchIcon from '@mui/icons-material/Search';
 import { message } from 'antd';
+import { Add as AddIcon } from '@mui/icons-material';
 
 const RoutePage = () => {
 
@@ -437,7 +438,7 @@ const RoutePage = () => {
                                             </div>
                                         ))
                                     ) : (
-                                        <div>No destinations available for this route.</div>
+                                        <div style={{ color: 'gray' }}>No destinations available for this route.</div>
                                     )}
                                 </DialogContent>
                                 <DialogActions>
@@ -539,6 +540,7 @@ const RoutePage = () => {
                                         color="primary"
                                         onClick={handleAddDestination}
                                     >
+                                          <AddIcon />
                                         Add Destination
                                     </Button>
                                 </DialogContent>
