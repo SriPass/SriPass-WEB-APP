@@ -15,11 +15,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TablePagination
+  TablePagination,
+  CircularProgress,
 } from '@mui/material';
 import MainCard from 'components/MainCard';
 import AddBusSchedule from 'pages/components-overview/AddBusSchedule';
 import SearchIcon from '@mui/icons-material/Search';
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
 
 const RoutePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,6 +32,7 @@ const RoutePage = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingData, setEditingData] = useState(null);
   const [editedData, setEditedData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,8 +43,10 @@ const RoutePage = () => {
         }
         const data = await response.json();
         setData(data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setLoading(false);
       }
     };
     fetchData();
@@ -94,8 +100,10 @@ const RoutePage = () => {
       }
       // Update the data in your local state if needed
       setIsEditModalOpen(false);
+
     } catch (error) {
       console.error('Error saving edit:', error);
+
     }
   };
 
@@ -106,129 +114,158 @@ const RoutePage = () => {
       <Grid item xs={12} md={7} lg={8}>
         <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
           <Box sx={{ pt: 1, pr: 2 }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginTop: '20px',
-                marginBottom: '30px'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <TextField
-                  label="Search"
-                  variant="outlined"
-                  size="small"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </div>
-            </div>
+            <Box>
 
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Route No</TableCell>
-                    <TableCell>Start Date</TableCell>
-                    <TableCell>End Date</TableCell>
-                    <TableCell>Start Time</TableCell>
-                    <TableCell>End Time</TableCell>
-                    <TableCell>Vehicle No</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                    <TableRow key={row._id}>
-                      <TableCell>{row.RouteNo}</TableCell>
-                      <TableCell>{row.StartDate}</TableCell>
-                      <TableCell>{row.EndDate}</TableCell>
-                      <TableCell>{row.StartTime}</TableCell>
-                      <TableCell>{row.EndTime}</TableCell>
-                      <TableCell>{row.VehicleNo}</TableCell>
-                      <TableCell align="left">
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={() => handleDelete(row)}
-                          style={{ marginRight: '8px' }}
-                        >
-                          Delete
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => handleEdit(row)}
-                        >
-                          Edit
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+              {/* Conditionally render a loading spinner or the table */}
+              {loading ? (
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  height="300px" // Adjust the height as needed
+                >
+                  <CircularProgress />
+                </Box>// Render a spinner when loading is true
+              ) : (
+                <>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginTop: '20px',
+                      marginBottom: '30px'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <TextField
+                        label="Search"
+                        variant="outlined"
+                        size="small"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <SearchIcon />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    </div>
+                  </div>
 
-            <TablePagination
-              rowsPerPageOptions={[5]}
-              component="div"
-              count={filteredData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Route No</TableCell>
+                          <TableCell>Start Date</TableCell>
+                          <TableCell>End Date</TableCell>
+                          <TableCell>Start Time</TableCell>
+                          <TableCell>End Time</TableCell>
+                          <TableCell>Vehicle No</TableCell>
+                          <TableCell>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                          <TableRow key={row._id}>
+                            <TableCell align="left">
+                              <Chip
+                                avatar={
+                                  <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
+                                }
+                                label={row.RouteNo}
+                              />
 
-            {/* Edit Modal */}
-            <Dialog open={isEditModalOpen} onClose={handleCloseEditModal}>
-              <DialogTitle>Edit Row</DialogTitle>
-              <DialogContent>
-                <TextField
-                  label="Route No"
-                  value={editedData.RouteNo}
-                  onChange={(e) => handleFieldChange(e, 'RouteNo')}
-                />
-                <TextField
-                  label="Start Date"
-                  value={editedData.StartDate}
-                  onChange={(e) => handleFieldChange(e, 'StartDate')}
-                />
-                <TextField
-                  label="End Date"
-                  value={editedData.EndDate}
-                  onChange={(e) => handleFieldChange(e, 'EndDate')}
-                />
-                <TextField
-                  label="Start Time"
-                  value={editedData.StartTime}
-                  onChange={(e) => handleFieldChange(e, 'StartTime')}
-                />
-                <TextField
-                  label="End Time"
-                  value={editedData.EndTime}
-                  onChange={(e) => handleFieldChange(e, 'EndTime')}
-                />
-                <TextField
-                  label="Vehicle No"
-                  value={editedData.VehicleNo}
-                  onChange={(e) => handleFieldChange(e, 'VehicleNo')}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseEditModal}>Cancel</Button>
-                <Button onClick={handleSaveEdit}>Save</Button>
-              </DialogActions>
-            </Dialog>
+                            </TableCell>
+                            <TableCell>{row.StartDate}</TableCell>
+                            <TableCell>{row.EndDate}</TableCell>
+                            <TableCell>{row.StartTime}</TableCell>
+                            <TableCell>{row.EndTime}</TableCell>
+                            <TableCell>{row.VehicleNo}</TableCell>
+                            <TableCell align="left">
+                              <Button
+                                variant="outlined"
+                                color="error"
+                                onClick={() => handleDelete(row)}
+                                style={{ marginRight: '8px' }}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => handleEdit(row)}
+                              >
+                                Edit
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+
+                  <TablePagination
+                    rowsPerPageOptions={[5]}
+                    component="div"
+                    count={filteredData.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+
+                  {/* Edit Modal */}
+                  <Dialog open={isEditModalOpen} onClose={handleCloseEditModal}>
+                    <DialogTitle>Edit Row</DialogTitle>
+                    <DialogContent>
+                      <TextField
+                        label="Route No"
+                        value={editedData.RouteNo}
+                        onChange={(e) => handleFieldChange(e, 'RouteNo')}
+                      />
+                      <TextField
+                        label="Start Date"
+                        value={editedData.StartDate}
+                        onChange={(e) => handleFieldChange(e, 'StartDate')}
+                      />
+                      <TextField
+                        label="End Date"
+                        value={editedData.EndDate}
+                        onChange={(e) => handleFieldChange(e, 'EndDate')}
+                      />
+                      <TextField
+                        label="Start Time"
+                        value={editedData.StartTime}
+                        onChange={(e) => handleFieldChange(e, 'StartTime')}
+                      />
+                      <TextField
+                        label="End Time"
+                        value={editedData.EndTime}
+                        onChange={(e) => handleFieldChange(e, 'EndTime')}
+                      />
+                      <TextField
+                        label="Vehicle No"
+                        value={editedData.VehicleNo}
+                        onChange={(e) => handleFieldChange(e, 'VehicleNo')}
+                      />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleCloseEditModal}>Cancel</Button>
+                      <Button onClick={handleSaveEdit}>Save</Button>
+                    </DialogActions>
+                  </Dialog>
+
+                </>
+
+              )}
+            </Box>
           </Box>
+
+
         </MainCard>
       </Grid>
       <Grid item xs={12} md={5} lg={4}>
