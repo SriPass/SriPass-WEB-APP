@@ -25,7 +25,7 @@ import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
 
 // assets
-import { BellOutlined, CloseOutlined, GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
+import { BellOutlined, CloseOutlined, MessageOutlined,  } from '@ant-design/icons';
 
 // sx styles
 const avatarSX = {
@@ -144,24 +144,24 @@ const Notification = () => {
                             bgcolor: 'success.lighter'
                           }}
                         >
-                          <GiftOutlined />
+                          <MessageOutlined />
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
                         primary={
                           <Typography variant="h6">
-                            It&apos;s{' '}
+                           
                             <Typography component="span" variant="subtitle1">
-                              Cristina danny&apos;s
+                              Login&apos;s
                             </Typography>{' '}
-                            birthday today.
+                            successful.
                           </Typography>
                         }
-                        secondary="2 min ago"
+                        secondary="5 min ago"
                       />
                       <ListItemSecondaryAction>
                         <Typography variant="caption" noWrap>
-                          3:00 AM
+                          3:00 PM
                         </Typography>
                       </ListItemSecondaryAction>
                     </ListItemButton>
@@ -180,13 +180,14 @@ const Notification = () => {
                       <ListItemText
                         primary={
                           <Typography variant="h6">
+                            New {' '}
                             <Typography component="span" variant="subtitle1">
-                              Aida Burg
+                              Bus Route
                             </Typography>{' '}
-                            commented your post.
+                            added successfully.
                           </Typography>
                         }
-                        secondary="5 August"
+                        secondary="5 October"
                       />
                       <ListItemSecondaryAction>
                         <Typography variant="caption" noWrap>
@@ -194,77 +195,7 @@ const Notification = () => {
                         </Typography>
                       </ListItemSecondaryAction>
                     </ListItemButton>
-                    <Divider />
-                    <ListItemButton>
-                      <ListItemAvatar>
-                        <Avatar
-                          sx={{
-                            color: 'error.main',
-                            bgcolor: 'error.lighter'
-                          }}
-                        >
-                          <SettingOutlined />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <Typography variant="h6">
-                            Your Profile is Complete &nbsp;
-                            <Typography component="span" variant="subtitle1">
-                              60%
-                            </Typography>{' '}
-                          </Typography>
-                        }
-                        secondary="7 hours ago"
-                      />
-                      <ListItemSecondaryAction>
-                        <Typography variant="caption" noWrap>
-                          2:45 PM
-                        </Typography>
-                      </ListItemSecondaryAction>
-                    </ListItemButton>
-                    <Divider />
-                    <ListItemButton>
-                      <ListItemAvatar>
-                        <Avatar
-                          sx={{
-                            color: 'primary.main',
-                            bgcolor: 'primary.lighter'
-                          }}
-                        >
-                          C
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <Typography variant="h6">
-                            <Typography component="span" variant="subtitle1">
-                              Cristina Danny
-                            </Typography>{' '}
-                            invited to join{' '}
-                            <Typography component="span" variant="subtitle1">
-                              Meeting.
-                            </Typography>
-                          </Typography>
-                        }
-                        secondary="Daily scrum meeting time"
-                      />
-                      <ListItemSecondaryAction>
-                        <Typography variant="caption" noWrap>
-                          9:10 PM
-                        </Typography>
-                      </ListItemSecondaryAction>
-                    </ListItemButton>
-                    <Divider />
-                    <ListItemButton sx={{ textAlign: 'center', py: `${12}px !important` }}>
-                      <ListItemText
-                        primary={
-                          <Typography variant="h6" color="primary">
-                            View All
-                          </Typography>
-                        }
-                      />
-                    </ListItemButton>
+                   
                   </List>
                 </MainCard>
               </ClickAwayListener>

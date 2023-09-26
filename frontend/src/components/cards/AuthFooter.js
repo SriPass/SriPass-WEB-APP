@@ -15,29 +15,20 @@ const AuthFooter = () => {
         textAlign={matchDownSM ? 'center' : 'inherit'}
       >
         <Typography variant="subtitle2" color="secondary" component="span">
-          &copy; Empty&nbsp;
-          <Typography component={Link} variant="subtitle2" href="" target="_blank" underline="hover">
-            Empty
+          &copy; 2023&nbsp;
+          <Typography component={Link} variant="subtitle2" href="/login"  underline="hover">
+            SriPass
           </Typography>
         </Typography>
 
         <Stack direction={matchDownSM ? 'column' : 'row'} spacing={matchDownSM ? 1 : 3} textAlign={matchDownSM ? 'center' : 'inherit'}>
+        
           <Typography
             variant="subtitle2"
             color="secondary"
             component={Link}
-            href=""
-            target="_blank"
-            underline="hover"
-          >
-            MUI Templates
-          </Typography>
-          <Typography
-            variant="subtitle2"
-            color="secondary"
-            component={Link}
-            href=""
-            target="_blank"
+            href="/login"
+            
             underline="hover"
           >
             Privacy Policy
@@ -46,8 +37,8 @@ const AuthFooter = () => {
             variant="subtitle2"
             color="secondary"
             component={Link}
-            href=""
-            target="_blank"
+            href="/login"
+            
             underline="hover"
           >
             Support
