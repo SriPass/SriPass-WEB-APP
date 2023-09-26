@@ -17,7 +17,7 @@ import {
   Stack,
   Typography
 } from '@mui/material';
-
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 // project import
@@ -37,6 +37,7 @@ const AuthLogin = () => {
   const [passwordError, setPasswordError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
 
   const handleClickShowPassword = () => {
@@ -61,7 +62,7 @@ const AuthLogin = () => {
   })
 
   function login(e) {
-    
+
     e.preventDefault(); // Prevent the default form submission
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -81,6 +82,7 @@ const AuthLogin = () => {
 
     const manager = { email, password };
     dispatch({ type: 'MANAGER_LOGIN_REQUEST' });
+    setIsLoading(true); // Set loading state to true
 
     // Define the request options
     const requestOptions = {
@@ -111,6 +113,9 @@ const AuthLogin = () => {
           setLoginError('');
         }, 2000);
         dispatch({ type: 'MANAGER_LOGIN_FAILED', payload: error });
+      })
+      .finally(() => {
+        setIsLoading(false); // Set loading state to false regardless of success or error
       });
   }
 
@@ -118,12 +123,18 @@ const AuthLogin = () => {
   return (
     <>
       <form noValidate onSubmit={login}>
+        {isLoading && (
+          <div style={{ marginBottom: '5px' }}>
+            <LinearProgress />
+          </div>
+
+        )}
         {loginError && (
-          <Alert severity="error" style = {{marginBottom : '10px'}}>{loginError}</Alert>
+          <Alert severity="error" style={{ marginBottom: '10px' }}>{loginError}</Alert>
         )}
         {loginSuccess && (
           <Typography variant="caption" color="success">
-            <Alert severity="success">{loginSuccess}</Alert>
+            <Alert severity="success" style={{ marginBottom: '10px' }}>{loginSuccess}</Alert>
           </Typography>
         )}
 
