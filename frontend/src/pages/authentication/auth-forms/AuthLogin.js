@@ -124,7 +124,7 @@ const AuthLogin = () => {
     <>
       <form noValidate onSubmit={login}>
         {isLoading && (
-          <div style={{ marginBottom: '5px' }}>
+          <div style={{ marginBottom: '20px' }}>
             <LinearProgress />
           </div>
 
