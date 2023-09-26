@@ -1,8 +1,7 @@
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import Popper from '@mui/material/Popper';
 
-// material-ui
-import { useTheme } from '@mui/material/styles';
 import {
   Avatar,
   Box,
@@ -12,24 +11,19 @@ import {
   Grid,
   IconButton,
   Paper,
-  Popper,
   Stack,
   Tab,
   Tabs,
   Typography
 } from '@mui/material';
-
-// project import
 import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
 import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
-
-// assets
-import avatar1 from 'assets/images/users/avatar-1.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import avatar1 from 'assets/images/users/avatar-1.png';
+import { useTheme } from '@mui/material/styles';
 
-// tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
   return (
     <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`} aria-labelledby={`profile-tab-${index}`} {...other}>
@@ -51,13 +45,25 @@ function a11yProps(index) {
   };
 }
 
-// ==============================|| HEADER CONTENT - PROFILE ||============================== //
-
 const Profile = () => {
   const theme = useTheme();
 
+  const [currentManager, setCurrentManager] = useState(null); // Initialize currentManager as null
+
+  // Retrieve 'currentManager' from localStorage
+  useEffect(() => {
+    const storedManager = JSON.parse(localStorage.getItem('currentManager'));
+    if (storedManager) {
+      setCurrentManager(storedManager);
+    } else {
+      // Redirect to the login page or handle it as needed
+      window.location.href = '/login'; // Redirect to the login page
+    }
+  }, []);
+
   const handleLogout = async () => {
-    // logout
+    localStorage.removeItem('currentManager')
+    window.location.href = '/login'
   };
 
   const anchorRef = useRef(null);
@@ -81,6 +87,11 @@ const Profile = () => {
 
   const iconBackColorOpen = 'grey.300';
 
+  if (!currentManager) {
+    // Handle the case when 'currentManager' is not found in localStorage
+    return null; // Or you can render a loading spinner or an error message
+  }
+
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
       <ButtonBase
@@ -88,7 +99,7 @@ const Profile = () => {
           p: 0.25,
           bgcolor: open ? iconBackColorOpen : 'transparent',
           borderRadius: 1,
-          '&:hover': { bgcolor: 'secondary.lighter' }
+          '&:hover': { bgcolor: 'secondary.lighter' },
         }}
         aria-label="open profile"
         ref={anchorRef}
@@ -98,7 +109,7 @@ const Profile = () => {
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
           <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
-          <Typography variant="subtitle1">Admin</Typography>
+          <Typography variant="subtitle1">{currentManager.name}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -205,3 +216,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
