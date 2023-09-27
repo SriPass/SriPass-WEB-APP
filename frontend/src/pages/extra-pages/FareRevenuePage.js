@@ -3,70 +3,46 @@ import React, { useState, useEffect } from 'react';
 
 // material-ui
 import {
-    Avatar,
+    
     Box,
     Button,
     Grid,
-    List,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemSecondaryAction,
-    ListItemText,
-    MenuItem,
     Stack,
-    TextField,
     Typography
 } from '@mui/material';
 
 // project import
 import IncomeAreaChart from '../dashboard/IncomeAreaChart';
 import MonthlyBarChart from '../dashboard/MonthlyBarChart';
-import ReportAreaChart from '../dashboard/ReportAreaChart';
-import SalesColumnChart from '../dashboard/SalesColumnChart';
+
 import MainCard from 'components/MainCard';
 import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
 
-// assets
-import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
 
 
-// avatar style
-const avatarSX = {
-    width: 36,
-    height: 36,
-    fontSize: '1rem'
-};
 
-// action style
-const actionSX = {
-    mt: 0.75,
-    ml: 1,
-    top: 'auto',
-    right: 'auto',
-    alignSelf: 'flex-start',
-    transform: 'none'
-};
 
-// sales report status
-const status = [
-    {
-        value: 'today',
-        label: 'Today'
-    },
-    {
-        value: 'month',
-        label: 'This Month'
-    },
-    {
-        value: 'year',
-        label: 'This Year'
-    }
-];
+
+// // sales report status
+// const status = [
+//     {
+//         value: 'today',
+//         label: 'Today'
+//     },
+//     {
+//         value: 'month',
+//         label: 'This Month'
+//     },
+//     {
+//         value: 'year',
+//         label: 'This Year'
+//     }
+// ];
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
 const FreeRevenuePage = () => {
-    const [value, setValue] = useState('today');
+
     const [slot, setSlot] = useState('week');
     const [costData, setCostData] = useState(null);
     const [totalUsers, setTotalUsers] = useState(null);
@@ -126,16 +102,16 @@ const FreeRevenuePage = () => {
     useEffect(() => {
         // Fetch data from the API endpoint
         fetch('https://sripass.onrender.com/api/bus/')
-          .then((response) => response.json())
-          .then((data) => {
-            // Assuming the response data is an array of documents, and you want to count them
-            const numberOfBuses = data.length;
-            setTotalBuses(numberOfBuses);
-          })
-          .catch((error) => {
-            console.error('Error fetching data:', error);
-          });
-      }, []);
+            .then((response) => response.json())
+            .then((data) => {
+                // Assuming the response data is an array of documents, and you want to count them
+                const numberOfBuses = data.length;
+                setTotalBuses(numberOfBuses);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
 
 
@@ -145,20 +121,20 @@ const FreeRevenuePage = () => {
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             {/* row 1 */}
-            {/* <Grid item xs={12} sx={{ mb: -2.25 }}>
+            <Grid item xs={12} sx={{ mb: -2.25 }}>
                 <Typography variant="h5">Reports</Typography>
-            </Grid> */}
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Revenue" count={costData !== null ? `LKR ${costData}` : 'Loading...'}  />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Users" count={totalUsers !== null ? totalUsers.toLocaleString() : 'Loading...'}   />
+                <AnalyticEcommerce title="Total Revenue" count={costData !== null ? `LKR ${costData}` : 'Loading...'} />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Routes" count={totalRoutes !== null ? totalRoutes.toLocaleString() : 'Loading...'}    />
+                <AnalyticEcommerce title="Total Users" count={totalUsers !== null ? totalUsers.toLocaleString() : 'Loading...'} />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Registerd Buses" count={totalBuses !== null ? totalBuses.toLocaleString() : 'Loading...'}  />
+                <AnalyticEcommerce title="Total Routes" count={totalRoutes !== null ? totalRoutes.toLocaleString() : 'Loading...'} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Total Registerd Buses" count={totalBuses !== null ? totalBuses.toLocaleString() : 'Loading...'} />
             </Grid>
 
             <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
@@ -216,7 +192,7 @@ const FreeRevenuePage = () => {
                 </MainCard>
             </Grid>
 
-            {/* row 3 */}
+            {/* row 3
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
@@ -227,8 +203,8 @@ const FreeRevenuePage = () => {
                 <MainCard sx={{ mt: 2 }} content={false}>
                     scac
                 </MainCard>
-            </Grid>
-            <Grid item xs={12} md={5} lg={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} md={5} lg={4}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h5">Analytics Report</Typography>
@@ -252,9 +228,9 @@ const FreeRevenuePage = () => {
                     </List>
                     <ReportAreaChart />
                 </MainCard>
-            </Grid>
+            </Grid> */}
 
-            {/* row 4 */}
+            {/* row 4
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
@@ -286,8 +262,8 @@ const FreeRevenuePage = () => {
                     </Stack>
                     <SalesColumnChart />
                 </MainCard>
-            </Grid>
-            <Grid item xs={12} md={5} lg={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} md={5} lg={4}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h5">Transaction History</Typography>
@@ -398,14 +374,14 @@ const FreeRevenuePage = () => {
                   <Avatar alt="Cindy Baker" src={avatar3} />
                   <Avatar alt="Agnes Walker" src={avatar4} />
                 </AvatarGroup> */}
-                            </Grid>
+                            {/* </Grid>
                         </Grid>
                         <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
                             Need Help?
                         </Button>
                     </Stack>
                 </MainCard>
-            </Grid>
+            </Grid> */} 
         </Grid>
     );
 };

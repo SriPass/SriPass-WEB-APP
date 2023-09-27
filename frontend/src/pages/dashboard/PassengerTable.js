@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
+  Chip,
   Button,
   Dialog,
   DialogActions,
@@ -29,6 +30,80 @@ function PassengerTable() {
   const [selectedPassengerId, setSelectedPassengerId] = useState(null);
   const [editedFields, setEditedFields] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
+
+  const [topUpDialogOpen, setTopUpDialogOpen] = useState(false);
+  const [topUpPassengerId, setTopUpPassengerId] = useState(null);
+  const [topUpAmount, setTopUpAmount] = useState(0);
+
+
+  const [lastTopUpAmount, setlastTopUpAmount] = useState('');
+
+  const openTopUpDialog = (passengerId) => {
+    const passengerToTopUp = passengers.find((passenger) => passenger._id === passengerId);
+
+    if (!passengerToTopUp) {
+      console.error('Passenger not found for top-up');
+      return;
+    }
+
+    setTopUpPassengerId(passengerId);
+    setTopUpAmount(0);
+    setlastTopUpAmount(passengerToTopUp.topUpAmount);
+    setTopUpDialogOpen(true);
+  };
+
+  const closeTopUpDialog = () => {
+    setTopUpPassengerId(null);
+    setTopUpAmount(0);
+    setTopUpDialogOpen(false);
+  };
+
+
+  const handleTopUp = async () => {
+    try {
+      // Find the passenger in the passengers array based on topUpPassengerId
+      const passengerToTopUp = passengers.find((passenger) => passenger._id === topUpPassengerId);
+
+      if (!passengerToTopUp) {
+        throw new Error('Passenger not found for top-up');
+      }
+
+      // Send an API request to update the balance
+      const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${topUpPassengerId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          topUpAmount,
+          balance: passengerToTopUp.balance + topUpAmount, // Use passengerToTopUp to access the balance
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to top-up balance');
+      }
+
+      // Update the passengers array with the new balance
+      setPassengers((prevPassengers) =>
+        prevPassengers.map((passenger) =>
+          passenger._id === topUpPassengerId
+            ? { ...passenger, balance: passengerToTopUp.balance + topUpAmount }
+            : passenger
+        )
+      );
+
+      // Concurrently update the passenger's balance locally
+      setTopUpAmount(0); // Reset the topUpAmount to zero
+      closeTopUpDialog();
+    } catch (error) {
+      console.error('Error topping up balance:', error);
+    }
+  };
+
+
+
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -116,6 +191,7 @@ function PassengerTable() {
   const handleSaveEdit = async (passengerId) => {
     try {
       const editedPassengerFields = editedFields[passengerId];
+
       const response = await fetch(`https://sripass.onrender.com/api/localpassengers/${passengerId}`, {
         method: 'PUT',
         headers: {
@@ -169,6 +245,7 @@ function PassengerTable() {
                 <TableCell>Last Name</TableCell>
                 <TableCell>Contact Number</TableCell>
                 <TableCell>Address</TableCell>
+                <TableCell>Balance (LKR)</TableCell>
                 {/* Add other table columns here */}
                 <TableCell>Actions</TableCell>
               </TableRow>
@@ -181,6 +258,12 @@ function PassengerTable() {
                   <TableCell>{passenger.lastName}</TableCell>
                   <TableCell>{passenger.contactNumber}</TableCell>
                   <TableCell>{passenger.address}</TableCell>
+                  <TableCell style={{ padding: '8px' }}>
+                    LKR: {passenger.balance}{' '}
+
+                  </TableCell>
+
+
                   {/* Add other table cells for additional columns */}
                   <TableCell>
                     <Button
@@ -197,6 +280,14 @@ function PassengerTable() {
                       onClick={() => openEditDialog(passenger._id)}
                     >
                       Edit
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => openTopUpDialog(passenger._id)}
+                      style={{ marginLeft: '8px' }}
+                    >
+                      TopUp
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -218,7 +309,37 @@ function PassengerTable() {
           setPage(0);
         }}
       />
+      <Dialog
+        open={topUpDialogOpen}
+        onClose={closeTopUpDialog}
+        aria-labelledby="top-up-dialog-title"
+      >
+        <DialogTitle id="top-up-dialog-title">Top Up Balance</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Last topUp Amount: <Chip label={`LKR ${lastTopUpAmount}`} />
+          </DialogContentText>
 
+
+          <DialogContentText>Enter the top-up amount:</DialogContentText>
+          <TextField
+            label="Amount (LKR)"
+            value={topUpAmount}
+            onChange={(e) => setTopUpAmount(parseFloat(e.target.value))}
+            fullWidth
+            margin="normal"
+            type="number"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeTopUpDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleTopUp} color="primary">
+            Top Up
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Dialog
         open={deleteDialogOpen}
         onClose={closeDeleteDialog}

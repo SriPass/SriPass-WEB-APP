@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -140,7 +141,14 @@ function BusTable() {
   return (
     <div>
       {isLoading ? (
+        <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="300px" // Adjust the height as needed
+      >
         <CircularProgress />
+      </Box>
       ) : (
         <TableContainer component={Paper} style={{ boxShadow: 'none' }}>
           <Table>
