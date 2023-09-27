@@ -8,7 +8,7 @@ import BusScheduleTable from 'pages/dashboard/BusScheduleTable'
 
 
 // render
-const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
+//const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const PassengerPage = Loadable(lazy(() => import('pages/extra-pages/PassengerPage')));
 const DriverPage = Loadable(lazy(() => import('pages/extra-pages/DriverPage')));
 const BusPage = Loadable(lazy(() => import('pages/extra-pages/BusPage')));
@@ -30,14 +30,14 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: <FareRevenuePage />
     },
     {
-      path: 'dashboard',
+      path: '',
       children: [
         {
-          path: 'default',
-          element: <DashboardDefault />
+          path: '',
+          element: <FareRevenuePage />
         }
       ]
     },
