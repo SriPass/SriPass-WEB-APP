@@ -24,7 +24,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 
-const RoutePage = () => {
+const BusScheduleTable = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -313,4 +313,4 @@ const RoutePage = () => {
   );
 };
 
-export default RoutePage;
+export default BusScheduleTable;
