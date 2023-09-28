@@ -434,7 +434,7 @@ const RoutePage = () => {
                                                                     variant="outlined"
                                                                     color="error"
                                                                     onClick={() => handleDelete(row)}
-                                                                    style={{ marginRight: '8px' }}
+                                                                    style={{ margin: '4px' }}
                                                                 >
                                                                     Delete
                                                                 </Button>
@@ -442,6 +442,7 @@ const RoutePage = () => {
                                                                     variant="outlined"
                                                                     color="primary"
                                                                     onClick={() => handleEdit(row)}
+                                                                    style={{ margin: '4px' }}
                                                                 >
                                                                     Edit
                                                                 </Button>
