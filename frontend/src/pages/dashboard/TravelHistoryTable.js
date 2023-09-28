@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Table,
   TableBody,
   TableCell,
@@ -96,8 +91,7 @@ function TravelHistoryTable() {
         label="Search Passenger ID"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        
-        margin="normal"
+        style={{ margin: '20px' }}
         variant="outlined"
       />
 
