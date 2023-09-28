@@ -194,7 +194,7 @@ const FreeRevenuePage = () => {
                 <Typography variant="h5">Reports</Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Revenue" count={costData !== null ? `LKR ${costData}` : 'Loading...'} />
+                <AnalyticEcommerce title="Total Revenue" count={costData !== null ? `LKR ${costData.toFixed(2)}` : 'Loading...'} />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <AnalyticEcommerce title="Total Account Balance of Passengers" count={totalBalance !== null ? `LKR ${totalBalance.toFixed(2)}` : 'Loading...'} />
