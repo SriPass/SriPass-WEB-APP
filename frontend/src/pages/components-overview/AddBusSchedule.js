@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MainCard from 'components/MainCard';
-import { Button, FormControl, InputLabel, MenuItem, Select, OutlinedInput } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { message } from 'antd';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -22,12 +22,12 @@ const AddBusSchedule = () => {
     EndDate: '',
     StartTime: '',
     EndTime: '',
-    VehicleNo: ''
+    VehicalNo: ''
   });
 
   const [driverOptions, setDriverOptions] = useState([]);
   const [inspectorOptions, setInspectorOptions] = useState([]);
-
+  const [vehicleOptions, setVehicleOptions] = useState([]);
   useEffect(() => {
     const fetchInspectorOptions = async () => {
       try {
@@ -50,6 +50,26 @@ const AddBusSchedule = () => {
 
     fetchInspectorOptions();
   }, []);
+
+  useEffect(() => {
+    const fetchVehicleOptions = async () => {
+      try {
+        const response = await fetch('https://sripass.onrender.com/api/bus/');
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+        const data = await response.json();
+        // Extract licensePlateNumber values from data and set them in the state
+        const vehicleNos = data.map((vehicle) => vehicle.licensePlateNumber);
+        setVehicleOptions(vehicleNos);
+      } catch (error) {
+        console.error('Error fetching Vehicle No options:', error);
+      }
+    };
+
+    fetchVehicleOptions();
+  }, []);
+
 
   // Use useEffect to fetch driver options from the API
   useEffect(() => {
@@ -182,6 +202,7 @@ const AddBusSchedule = () => {
 
   return (
     <MainCard>
+      <h3>Add New Bus Schedule</h3>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
         <FormControl fullWidth margin="normal" variant="outlined">
           <InputLabel htmlFor="RouteNo">Route ID</InputLabel>
@@ -243,16 +264,22 @@ const AddBusSchedule = () => {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth margin="normal" variant="outlined" style={{ marginBottom: '20px' }}>
-          <InputLabel htmlFor="to">Vehicle No</InputLabel>
-          <OutlinedInput
-            id="VehicleNo"
-            type="text"
+         <FormControl fullWidth margin="normal" variant="outlined" style={{ marginBottom: '20px' }}>
+          <InputLabel htmlFor="vehicalNo">Vehicle No</InputLabel>
+          <Select
+            label="Vehicle No"
+            id="vehicalNo"
             value={values.VehicleNo}
             onChange={handleChange('VehicleNo')}
             required
-            label="VehicleNo"
-          />
+          >
+            {/* Map the fetched vehicle options to MenuItem components */}
+            {vehicleOptions.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
 
         <Button type="submit" variant="contained" color="primary" style={{ width: '100%' }}>

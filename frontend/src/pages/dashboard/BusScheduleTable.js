@@ -33,6 +33,8 @@ const RoutePage = () => {
   const [editingData, setEditingData] = useState(null);
   const [editedData, setEditedData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,13 +100,37 @@ const RoutePage = () => {
       if (!response.ok) {
         throw new Error('Failed to save edit');
       }
-      // Update the data in your local state if needed
       setIsEditModalOpen(false);
-
     } catch (error) {
       console.error('Error saving edit:', error);
-
     }
+  };
+
+  const handleDelete = (row) => {
+    setItemToDelete(row); // Set the item to be deleted
+    setIsDeleteModalOpen(true); // Open the delete confirmation modal
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const response = await fetch(`https://sripass.onrender.com/api/bus-schedules/${itemToDelete._id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete');
+      }
+
+      // Update your local data state or refetch data if needed
+      setIsDeleteModalOpen(false); // Close the confirmation modal
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false); // Close the confirmation modal without deleting
+    setItemToDelete(null); // Clear the item to be deleted
   };
 
   const filteredData = data.filter((item) => item.RouteNo.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -115,17 +141,15 @@ const RoutePage = () => {
         <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
           <Box sx={{ pt: 1, pr: 2 }}>
             <Box>
-
-              {/* Conditionally render a loading spinner or the table */}
               {loading ? (
                 <Box
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
-                  height="300px" // Adjust the height as needed
+                  height="300px"
                 >
                   <CircularProgress />
-                </Box>// Render a spinner when loading is true
+                </Box>
               ) : (
                 <>
                   <div
@@ -178,7 +202,6 @@ const RoutePage = () => {
                                 }
                                 label={row.RouteNo}
                               />
-
                             </TableCell>
                             <TableCell>{row.StartDate}</TableCell>
                             <TableCell>{row.EndDate}</TableCell>
@@ -218,37 +241,42 @@ const RoutePage = () => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                   />
 
-                  {/* Edit Modal */}
-                  <Dialog open={isEditModalOpen} onClose={handleCloseEditModal}>
+                  <Dialog style={{}}open={isEditModalOpen} onClose={handleCloseEditModal}>
                     <DialogTitle>Edit Row</DialogTitle>
                     <DialogContent>
                       <TextField
                         label="Route No"
+                        style={{margin:'20px'}}
                         value={editedData.RouteNo}
                         onChange={(e) => handleFieldChange(e, 'RouteNo')}
                       />
                       <TextField
                         label="Start Date"
+                        style={{margin:'20px'}}
                         value={editedData.StartDate}
                         onChange={(e) => handleFieldChange(e, 'StartDate')}
                       />
                       <TextField
                         label="End Date"
+                        style={{margin:'20px'}}
                         value={editedData.EndDate}
                         onChange={(e) => handleFieldChange(e, 'EndDate')}
                       />
                       <TextField
                         label="Start Time"
+                        style={{margin:'20px'}}
                         value={editedData.StartTime}
                         onChange={(e) => handleFieldChange(e, 'StartTime')}
                       />
                       <TextField
                         label="End Time"
+                        style={{margin:'20px'}}
                         value={editedData.EndTime}
                         onChange={(e) => handleFieldChange(e, 'EndTime')}
                       />
                       <TextField
                         label="Vehicle No"
+                        style={{margin:'20px'}}
                         value={editedData.VehicleNo}
                         onChange={(e) => handleFieldChange(e, 'VehicleNo')}
                       />
@@ -259,13 +287,23 @@ const RoutePage = () => {
                     </DialogActions>
                   </Dialog>
 
+                  {/* Delete Confirmation Modal */}
+                  <Dialog open={isDeleteModalOpen} onClose={cancelDelete}>
+                    <DialogTitle>Confirm Deletion</DialogTitle>
+                    <DialogContent>
+                      Are you sure you want to delete this item?
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={cancelDelete}>Cancel</Button>
+                      <Button onClick={confirmDelete} color="error">
+                        Delete
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </>
-
               )}
             </Box>
           </Box>
-
-
         </MainCard>
       </Grid>
       <Grid item xs={12} md={5} lg={4}>
