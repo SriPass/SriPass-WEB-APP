@@ -51,6 +51,7 @@ const PassengerPage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
+                   <TravelHistoryTable/>
 
                 </MainCard>
             </Grid>
