@@ -11,7 +11,8 @@ import {
   ScheduleOutlined,
   CarOutlined,
   MoneyCollectOutlined,
-  UserSwitchOutlined
+  UserSwitchOutlined,
+  ProfileOutlined
 } from '@ant-design/icons';
 
 const optionIcons = {
@@ -20,6 +21,7 @@ const optionIcons = {
   'Bus Scheduling': <CarryOutOutlined />,
   'Route Management': <ScheduleOutlined />,
   'Inspector Details': <CarOutlined />,
+  'Bus Details': <ProfileOutlined />,
   'Driver Details': <UserSwitchOutlined />,
   'Fare Revenue Analysis' :<MoneyCollectOutlined /> 
 
@@ -30,6 +32,7 @@ const optionNavigation = {
   'Bus Scheduling': 'bus',
   'Route Management': 'route',
   'Inspector Details': 'inspector',
+  'Bus Details': 'busdetails',
   'Driver Details': 'driver',
   'Fare Revenue Analysis' : 'fareRevenue'
  
@@ -42,6 +45,7 @@ export default function FreeSolo() {
     'Bus Scheduling',
     'Route Management',
     'Inspector Details',
+    'Bus Details',
     'Driver Details',
     'Fare Revenue Analysis'
 

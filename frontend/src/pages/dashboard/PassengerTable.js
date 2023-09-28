@@ -256,7 +256,7 @@ function PassengerTable() {
             <TableBody>
               {displayedPassengers.map((passenger) => (
                 <TableRow key={passenger._id}>
-                  <TableCell>{passenger._id}</TableCell>
+                  <TableCell>{passenger.passengerId}</TableCell>
                   <TableCell>{passenger.firstName}</TableCell>
                   <TableCell>{passenger.lastName}</TableCell>
                   <TableCell>{passenger.contactNumber}</TableCell>
