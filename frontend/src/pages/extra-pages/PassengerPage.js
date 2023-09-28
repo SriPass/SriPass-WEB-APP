@@ -11,6 +11,8 @@ import {
 import MainCard from 'components/MainCard';
 import PassengerTable from 'pages/dashboard/PassengerTable';
 import AddPassenger from 'pages/components-overview/AddPassenger';
+import TravelHistoryTable from 'pages/dashboard/TravelHistoryTable';
+
 
 const PassengerPage = () => {
 
@@ -18,14 +20,15 @@ const PassengerPage = () => {
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
-                    <Grid item>
-                        <Typography variant="h5">Details</Typography>
+                    <Grid item>                       
+                     <Typography variant="h5">Passenger Details</Typography>
+
                     </Grid>
 
                 </Grid>
                 <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
                     <Box sx={{ pt: 1, pr: 2 }}>
-                        <PassengerTable />
+                        <PassengerTable/>
                     </Box>
                 </MainCard>
 
@@ -38,7 +41,7 @@ const PassengerPage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                    <AddPassenger />
+                    <AddPassenger/>
                 </MainCard>
             </Grid>
 
@@ -46,13 +49,12 @@ const PassengerPage = () => {
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Passengers Report</Typography>
+                        <Typography variant="h5">Passengers Travel History Details</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
                    <TravelHistoryTable/>
-
                 </MainCard>
             </Grid>
             <Grid item xs={12} md={5} lg={4}>
@@ -68,18 +70,18 @@ const PassengerPage = () => {
                             <ListItemText primary="Monthly" />
                             <Typography variant="h5"></Typography>
                         </ListItemButton>
-
-                        <>
-                            <ListItemButton divider>
-                                <ListItemText primary="Weekly" />
-                                <Typography variant="h5"></Typography>
-                            </ListItemButton>
-                            <ListItemButton>
-                                <ListItemText primary="Daily" />
-                                <Typography variant="h5"></Typography>
-                            </ListItemButton>
-                        </>
-
+                       
+                            <>
+                                <ListItemButton divider>
+                                    <ListItemText primary="Weekly" />
+                                    <Typography variant="h5"></Typography>
+                                </ListItemButton>
+                                <ListItemButton>
+                                    <ListItemText primary="Daily" />
+                                    <Typography variant="h5"></Typography>
+                                </ListItemButton>
+                            </>
+                        
                     </List>
                 </MainCard>
 
