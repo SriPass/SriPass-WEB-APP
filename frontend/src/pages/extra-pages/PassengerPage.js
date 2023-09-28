@@ -11,6 +11,8 @@ import {
 import MainCard from 'components/MainCard';
 import PassengerTable from 'pages/dashboard/PassengerTable';
 import AddPassenger from 'pages/components-overview/AddPassenger';
+import TravelHistoryTable from 'pages/dashboard/TravelHistoryTable';
+
 
 const PassengerPage = () => {
 
@@ -45,12 +47,12 @@ const PassengerPage = () => {
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Passengers Report</Typography>
+                        <Typography variant="h5">Passengers TravelHistoryTable</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                   
+                   <TravelHistoryTable/>
                 </MainCard>
             </Grid>
             <Grid item xs={12} md={5} lg={4}>
