@@ -202,7 +202,7 @@ const AddBusSchedule = () => {
 
   return (
     <MainCard>
-      <h3>Add New Bus Schedule</h3>
+     
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
         <FormControl fullWidth margin="normal" variant="outlined">
           <InputLabel htmlFor="RouteNo">Route ID</InputLabel>
