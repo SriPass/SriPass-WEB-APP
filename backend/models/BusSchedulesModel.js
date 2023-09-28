@@ -31,7 +31,7 @@ const busSchedulesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  VehicleNo: {
+  licensePlateNumber: {
     type: String,
     required: true,
   },

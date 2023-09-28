@@ -20,6 +20,16 @@ const localPassengersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  topUpAmount: {
+    type: Number,
+    required: true,
+    default: 0.00,
+  },
+  balance: {
+    type: Number,
+    required: true,
+    default: 0.00,
+  },
   address: {
     type: String,
     required: true,
