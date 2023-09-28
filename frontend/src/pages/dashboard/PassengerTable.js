@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
 import IconButton from '@mui/material/IconButton';
-import Fingerprint from '@mui/icons-material/Fingerprint';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Tooltip from '@mui/material/Tooltip';
 
 function PassengerTable() {
@@ -262,6 +262,11 @@ function PassengerTable() {
                   <TableCell>{passenger.contactNumber}</TableCell>
                   <TableCell>{passenger.address}</TableCell>
                   <TableCell style={{ padding: '8px' }}>
+                  <Tooltip title="TopUp">
+                        <IconButton aria-label="fingerprint" color="secondary" onClick={() => openTopUpDialog(passenger._id)}>
+                          <CurrencyExchangeIcon />
+                        </IconButton>
+                      </Tooltip>
                     LKR: {passenger.balance}{' '}
 
                   </TableCell>
@@ -286,11 +291,7 @@ function PassengerTable() {
                       >
                         Edit
                       </Button>
-                      <Tooltip title="TopUp">
-                        <IconButton aria-label="fingerprint" color="secondary" onClick={() => openTopUpDialog(passenger._id)}>
-                          <Fingerprint />
-                        </IconButton>
-                      </Tooltip>
+                    
                     </div>
 
                   </TableCell>

@@ -188,7 +188,9 @@ const Notification = () => {
                           </Typography>
                         }
                         secondary="5 October"
+                        style={{paddingBottom : '8px'}}
                       />
+                     
                       <ListItemSecondaryAction>
                         <Typography variant="caption" noWrap>
                           6:00 PM

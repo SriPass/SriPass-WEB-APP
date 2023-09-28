@@ -5,7 +5,7 @@ import ReactApexChart from 'react-apexcharts';
 const areaChartOptions = {
   chart: {
     height: 450,
-    type: 'bar', // Use a bar chart for Route No vs. Total Cost
+    type: 'line', // Use a line chart for Date vs. Cost per Day
     toolbar: {
       show: false,
     },
@@ -25,13 +25,14 @@ const areaChartOptions = {
     width: 2,
   },
   xaxis: {
+    type: 'datetime', // Specify that the x-axis is of type datetime
     title: {
-      text: 'Route No',
+      text: 'Date',
     },
   },
   yaxis: {
     title: {
-      text: 'Total Cost',
+      text: 'Cost per Day',
     },
   },
   grid: {
@@ -39,33 +40,34 @@ const areaChartOptions = {
   },
 };
 
-const IncomeAreaChart = () => {
+const CostPerDayChart = () => {
   const [options] = useState(areaChartOptions);
   const [series, setSeries] = useState([]);
-  
+
   useEffect(() => {
     // Fetch data from the API endpoint
     fetch('https://sripass.onrender.com/api/travelhistory/')
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          // Group data by 'Route No' and calculate total cost for each route
+          // Group data by date and calculate total cost for each day
           const groupedData = data.reduce((acc, item) => {
-            const routeNo = item.RouteNo;
+            const createdAt = new Date(item.createdAt); // Use the createdAt field to get the date
+            const formattedDate = createdAt.toDateString();
             const cost = item.cost;
 
-            if (!acc[routeNo]) {
-              acc[routeNo] = 0;
+            if (!acc[formattedDate]) {
+              acc[formattedDate] = 0;
             }
 
-            acc[routeNo] += cost;
+            acc[formattedDate] += cost;
             return acc;
           }, {});
 
           // Convert grouped data into series format
-          const seriesData = Object.entries(groupedData).map(([routeNo, totalCost]) => ({
-            x: routeNo,
-            y: totalCost,
+          const seriesData = Object.entries(groupedData).map(([date, cost]) => ({
+            x: new Date(date).getTime(), // Convert date to timestamp
+            y: cost,
           }));
 
           setSeries([{ data: seriesData }]);
@@ -76,16 +78,16 @@ const IncomeAreaChart = () => {
       });
   }, []);
 
-  return <ReactApexChart options={options} series={series} type="bar" height={450} />;
+  return <ReactApexChart options={options} series={series} type="line" height={450} />;
 };
 
-IncomeAreaChart.propTypes = {
+CostPerDayChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      RouteNo: PropTypes.string,
+      createdAt: PropTypes.string, // Assuming createdAt is a string representation of a date
       cost: PropTypes.number,
     })
   ),
 };
 
-export default IncomeAreaChart;
+export default CostPerDayChart;
