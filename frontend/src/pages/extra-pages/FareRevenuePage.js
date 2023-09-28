@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 // material-ui
 import {
-    
+
     Box,
     Button,
     Grid,
@@ -45,7 +45,7 @@ const FreeRevenuePage = () => {
 
     const [slot, setSlot] = useState('week');
     const [costData, setCostData] = useState(null);
-    const [totalUsers, setTotalUsers] = useState(null);
+    const [totalPassengers, setTotalPassengers] = useState(null);
     const [totalRoutes, setTotalRoutes] = useState(null);
     const [totalBuses, setTotalBuses] = useState(null);
 
@@ -67,15 +67,15 @@ const FreeRevenuePage = () => {
     }, []);
 
 
-    //Total Users
+    //Total Passengers
     useEffect(() => {
         // Fetch data from the API endpoint
         fetch('https://sripass.onrender.com/api/localpassengers/')
             .then((response) => response.json())
             .then((data) => {
                 // Assuming the response data is an array of documents, and you want to count them
-                const numberOfUsers = data.length;
-                setTotalUsers(numberOfUsers);
+                const numberOfPassengers = data.length;
+                setTotalPassengers(numberOfPassengers);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -114,7 +114,76 @@ const FreeRevenuePage = () => {
     }, []);
 
 
+    //Total Drivers
+    const [totalDrivers, setTotalDrivers] = useState(null); // State to store the total number of drivers
 
+    useEffect(() => {
+        // Fetch data from the API endpoint
+        fetch('https://sripass.onrender.com/api/driver/')
+            .then((response) => response.json())
+            .then((data) => {
+                // Assuming the response data is an array of documents, and you want to count them
+                const numberOfDrivers = data.length;
+                setTotalDrivers(numberOfDrivers);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+
+    //Total Inspectors
+    const [totalInspectors, setTotalInspectors] = useState(null); // State to store the total number of inspectors
+
+    useEffect(() => {
+        // Fetch data from the API endpoint
+        fetch('https://sripass.onrender.com/api/businspectors/')
+            .then((response) => response.json())
+            .then((data) => {
+                // Assuming the response data is an array of documents, and you want to count them
+                const numberOfInspectors = data.length;
+                setTotalInspectors(numberOfInspectors);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+    //Total Balance
+    const [totalBalance, setTotalBalance] = useState(null); // State to store the total balance
+
+    useEffect(() => {
+        // Fetch data from the API endpoint
+        fetch('https://sripass.onrender.com/api/localpassengers/')
+            .then((response) => response.json())
+            .then((data) => {
+                // Assuming the response data is an array of documents with a "balance" property
+                // Calculate the total balance from the data
+                const total = data.reduce((accumulator, item) => accumulator + item.balance, 0);
+                setTotalBalance(total);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+    //Total TopUpAmount
+    const [totalTopUpAmount, setTotalTopUpAmount] = useState(null); // State to store the total topUpAmount
+
+    useEffect(() => {
+        // Fetch data from the API endpoint
+        fetch('https://sripass.onrender.com/api/localpassengers/')
+            .then((response) => response.json())
+            .then((data) => {
+                // Assuming the response data is an array of objects with 'topUpAmount' property
+                // Calculate the total topUpAmount from the data
+                const totalAmount = data.reduce((accumulator, item) => accumulator + item.topUpAmount, 0);
+                setTotalTopUpAmount(totalAmount);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
 
 
@@ -128,7 +197,14 @@ const FreeRevenuePage = () => {
                 <AnalyticEcommerce title="Total Revenue" count={costData !== null ? `LKR ${costData}` : 'Loading...'} />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-                <AnalyticEcommerce title="Total Users" count={totalUsers !== null ? totalUsers.toLocaleString() : 'Loading...'} />
+                <AnalyticEcommerce title="Total Account Balance of Passengers" count={totalBalance !== null ? `LKR ${totalBalance.toFixed(2)}` : 'Loading...'} />
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Total Top-Up Amount of Passengers" count={totalTopUpAmount !== null ? `LKR ${totalTopUpAmount.toFixed(2)}` : 'Loading...'} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Total Passengers" count={totalPassengers !== null ? totalPassengers.toLocaleString() : 'Loading...'} />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <AnalyticEcommerce title="Total Routes" count={totalRoutes !== null ? totalRoutes.toLocaleString() : 'Loading...'} />
@@ -136,6 +212,15 @@ const FreeRevenuePage = () => {
             <Grid item xs={12} sm={6} md={4} lg={3}>
                 <AnalyticEcommerce title="Total Registerd Buses" count={totalBuses !== null ? totalBuses.toLocaleString() : 'Loading...'} />
             </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Total Registerd Drivers" count={totalDrivers !== null ? totalDrivers.toLocaleString() : 'Loading...'} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+                <AnalyticEcommerce title="Total Registerd Inspectors" count={totalInspectors !== null ? totalInspectors.toLocaleString() : 'Loading...'} />
+            </Grid>
+
+
+
 
             <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
 
@@ -374,14 +459,14 @@ const FreeRevenuePage = () => {
                   <Avatar alt="Cindy Baker" src={avatar3} />
                   <Avatar alt="Agnes Walker" src={avatar4} />
                 </AvatarGroup> */}
-                            {/* </Grid>
+            {/* </Grid>
                         </Grid>
                         <Button size="small" variant="contained" sx={{ textTransform: 'capitalize' }}>
                             Need Help?
                         </Button>
                     </Stack>
                 </MainCard>
-            </Grid> */} 
+            </Grid> */}
         </Grid>
     );
 };
