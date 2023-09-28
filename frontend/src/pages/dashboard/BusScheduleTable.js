@@ -19,12 +19,11 @@ import {
   CircularProgress,
 } from '@mui/material';
 import MainCard from 'components/MainCard';
-import AddBusSchedule from 'pages/components-overview/AddBusSchedule';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 
-const RoutePage = () => {
+const BusScheduleTable = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -241,42 +240,42 @@ const RoutePage = () => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                   />
 
-                  <Dialog style={{}}open={isEditModalOpen} onClose={handleCloseEditModal}>
+                  <Dialog style={{}} open={isEditModalOpen} onClose={handleCloseEditModal}>
                     <DialogTitle>Edit Row</DialogTitle>
                     <DialogContent>
                       <TextField
                         label="Route No"
-                        style={{margin:'20px'}}
+                        style={{ margin: '20px' }}
                         value={editedData.RouteNo}
                         onChange={(e) => handleFieldChange(e, 'RouteNo')}
                       />
                       <TextField
                         label="Start Date"
-                        style={{margin:'20px'}}
+                        style={{ margin: '20px' }}
                         value={editedData.StartDate}
                         onChange={(e) => handleFieldChange(e, 'StartDate')}
                       />
                       <TextField
                         label="End Date"
-                        style={{margin:'20px'}}
+                        style={{ margin: '20px' }}
                         value={editedData.EndDate}
                         onChange={(e) => handleFieldChange(e, 'EndDate')}
                       />
                       <TextField
                         label="Start Time"
-                        style={{margin:'20px'}}
+                        style={{ margin: '20px' }}
                         value={editedData.StartTime}
                         onChange={(e) => handleFieldChange(e, 'StartTime')}
                       />
                       <TextField
                         label="End Time"
-                        style={{margin:'20px'}}
+                        style={{ margin: '20px' }}
                         value={editedData.EndTime}
                         onChange={(e) => handleFieldChange(e, 'EndTime')}
                       />
                       <TextField
                         label="Vehicle No"
-                        style={{margin:'20px'}}
+                        style={{ margin: '20px' }}
                         value={editedData.VehicleNo}
                         onChange={(e) => handleFieldChange(e, 'VehicleNo')}
                       />
@@ -306,11 +305,9 @@ const RoutePage = () => {
           </Box>
         </MainCard>
       </Grid>
-      <Grid item xs={12} md={5} lg={4}>
-        <AddBusSchedule />
-      </Grid>
+     
     </Grid>
   );
 };
 
-export default RoutePage;
+export default BusScheduleTable;

@@ -20,12 +20,13 @@ const DriverPage = () => {
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
+                        <Typography variant="h5">Details</Typography>
                     </Grid>
 
                 </Grid>
                 <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
                     <Box sx={{ pt: 1, pr: 2 }}>
-                        <DriverTable/>
+                        <DriverTable />
                     </Box>
                 </MainCard>
 
@@ -38,7 +39,7 @@ const DriverPage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                    <AddDriver/>
+                    <AddDriver />
                 </MainCard>
             </Grid>
 
@@ -51,7 +52,7 @@ const DriverPage = () => {
                     <Grid item />
                 </Grid>
                 <MainCard sx={{ mt: 2 }} content={false}>
-                   
+
                 </MainCard>
             </Grid>
             <Grid item xs={12} md={5} lg={4}>
@@ -67,18 +68,18 @@ const DriverPage = () => {
                             <ListItemText primary="Estimated Time" />
                             <Typography variant="h5"></Typography>
                         </ListItemButton>
-                       
-                            <>
-                                <ListItemButton divider>
-                                    <ListItemText primary="Start" />
-                                    <Typography variant="h5"></Typography>
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText primary="Destination" />
-                                    <Typography variant="h5"></Typography>
-                                </ListItemButton>
-                            </>
-                        
+
+                        <>
+                            <ListItemButton divider>
+                                <ListItemText primary="Start" />
+                                <Typography variant="h5"></Typography>
+                            </ListItemButton>
+                            <ListItemButton>
+                                <ListItemText primary="Destination" />
+                                <Typography variant="h5"></Typography>
+                            </ListItemButton>
+                        </>
+
                     </List>
                 </MainCard>
 

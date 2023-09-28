@@ -3,8 +3,6 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
-import RoutePage from 'pages/extra-pages/RoutePage';
-import BusScheduleTable from 'pages/dashboard/BusScheduleTable'
 
 
 // render
@@ -12,14 +10,20 @@ import BusScheduleTable from 'pages/dashboard/BusScheduleTable'
 const PassengerPage = Loadable(lazy(() => import('pages/extra-pages/PassengerPage')));
 const DriverPage = Loadable(lazy(() => import('pages/extra-pages/DriverPage')));
 const BusPage = Loadable(lazy(() => import('pages/extra-pages/BusPage')));
-import InspectorPage from 'pages/extra-pages/InspectorPage';
-import FareRevenuePage from 'pages/extra-pages/FareRevenuePage';
+const InspectorPage = Loadable(lazy(() => import('pages/extra-pages/InspectorPage')));
+const FareRevenuePage = Loadable(lazy(() => import('pages/extra-pages/FareRevenuePage')));
+const RoutePage = Loadable(lazy(() => import('pages/extra-pages/RoutePage')));
+const BusSchedulePage = Loadable(lazy(() => import('pages/extra-pages/BusSchedulePage')));
 
 // render - utilities
 const AddPassenger = Loadable(lazy(() => import('pages/components-overview/AddPassenger')));
 const AddDriver = Loadable(lazy(() => import('pages/components-overview/AddDriver')));
 const AddBus = Loadable(lazy(() => import('pages/components-overview/AddBus')));
-import AddInspector from './../pages/components-overview/AddInspector';
+const AddRoute = Loadable(lazy(() => import('pages/components-overview/AddRoute')));
+const AddBusSchedule = Loadable(lazy(() => import('pages/components-overview/AddBusSchedule')));
+const AddInspector = Loadable(lazy(() => import('pages/components-overview/AddInspector')));
+
+
 
 
 
@@ -69,7 +73,7 @@ const MainRoutes = {
     },
     {
       path: 'bus',
-      element: <BusScheduleTable/>
+      element: <BusSchedulePage/>
     },
     
 
@@ -89,6 +93,14 @@ const MainRoutes = {
     {
       path: 'addbus',
       element: <AddBus />
+    },
+    {
+      path: 'addroute',
+      element: <AddRoute />
+    },
+    {
+      path: 'addbusschedule',
+      element: <AddBusSchedule />
     },
     
     
