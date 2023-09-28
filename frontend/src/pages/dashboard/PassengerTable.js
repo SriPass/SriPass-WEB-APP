@@ -20,6 +20,9 @@ import {
   CircularProgress,
 } from '@mui/material';
 import TablePagination from '@mui/material/TablePagination';
+import IconButton from '@mui/material/IconButton';
+import Fingerprint from '@mui/icons-material/Fingerprint';
+import Tooltip from '@mui/material/Tooltip';
 
 function PassengerTable() {
   const [passengers, setPassengers] = useState([]);
@@ -266,29 +269,30 @@ function PassengerTable() {
 
                   {/* Add other table cells for additional columns */}
                   <TableCell>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      onClick={() => openDeleteDialog(passenger._id)}
-                      style={{ marginRight: '8px' }}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => openEditDialog(passenger._id)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => openTopUpDialog(passenger._id)}
-                      style={{ marginLeft: '8px' }}
-                    >
-                      TopUp
-                    </Button>
+                    <div>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => openDeleteDialog(passenger._id)}
+                        style={{ margin: '4px'  }}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => openEditDialog(passenger._id)}
+                        style={{ margin: '4px' }}
+                      >
+                        Edit
+                      </Button>
+                      <Tooltip title="TopUp">
+                        <IconButton aria-label="fingerprint" color="secondary" onClick={() => openTopUpDialog(passenger._id)}>
+                          <Fingerprint />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+
                   </TableCell>
                 </TableRow>
               ))}
@@ -317,7 +321,7 @@ function PassengerTable() {
         <DialogTitle id="top-up-dialog-title">Top Up Balance</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Last topUp Amount: <Chip label={`LKR ${lastTopUpAmount}`} />
+            Last TopUp Amount: <Chip label={`LKR ${lastTopUpAmount}`} />
           </DialogContentText>
 
 
