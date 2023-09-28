@@ -25,6 +25,7 @@ function TravelHistoryTable() {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -66,16 +67,46 @@ function TravelHistoryTable() {
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
 
-  const displayedTravelHistory = travelHistory.slice(startIndex, endIndex);
+  // Group the travel history records by Passenger ID
+  const groupedTravelHistory = travelHistory.reduce((grouped, record) => {
+    const passengerID = record.PassengerID;
+    if (!grouped[passengerID]) {
+      grouped[passengerID] = [];
+    }
+    grouped[passengerID].push(record);
+    return grouped;
+  }, {});
+
+  // Sort the keys (Passenger IDs) in ascending order
+  const sortedPassengerIDs = Object.keys(groupedTravelHistory).sort();
+
+  // Flatten the grouped data into an array for display
+  const displayedTravelHistory = sortedPassengerIDs.flatMap((passengerID) => {
+    return groupedTravelHistory[passengerID];
+  });
+
+  // Filter the displayed data based on the search term
+  const filteredTravelHistory = displayedTravelHistory.filter((record) =>
+    record.PassengerID.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
+      <TextField
+        label="Search Passenger ID"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        
+        margin="normal"
+        variant="outlined"
+      />
+
       {isLoading ? (
         <Box
           display="flex"
           alignItems="center"
           justifyContent="center"
-          height="300px" // Adjust the height as needed
+          height="200px" // Adjust the height as needed
         >
           <CircularProgress />
         </Box>
@@ -93,7 +124,7 @@ function TravelHistoryTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {displayedTravelHistory.map((record) => (
+              {filteredTravelHistory.slice(startIndex, endIndex).map((record) => (
                 <TableRow key={record._id}>
                   <TableCell>{record.PassengerID}</TableCell>
                   <TableCell>{record.duration}</TableCell>
@@ -109,13 +140,13 @@ function TravelHistoryTable() {
                     >
                       Delete
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="outlined"
                       color="primary"
                       // Implement edit function here
                     >
                       Edit
-                    </Button>
+                    </Button> */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -125,9 +156,9 @@ function TravelHistoryTable() {
       )}
 
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
+        rowsPerPageOptions={[10, 20, 50]}
         component="div"
-        count={travelHistory.length}
+        count={filteredTravelHistory.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={(e, newPage) => setPage(newPage)}

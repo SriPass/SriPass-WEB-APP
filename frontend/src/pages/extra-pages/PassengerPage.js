@@ -20,7 +20,9 @@ const PassengerPage = () => {
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
-                    <Grid item>
+                    <Grid item>                       
+                     <Typography variant="h5">Passenger Details</Typography>
+
                     </Grid>
 
                 </Grid>
@@ -47,7 +49,7 @@ const PassengerPage = () => {
             <Grid item xs={12} md={7} lg={8}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item>
-                        <Typography variant="h5">Passengers TravelHistoryTable</Typography>
+                        <Typography variant="h5">Passengers Travel History Details</Typography>
                     </Grid>
                     <Grid item />
                 </Grid>
