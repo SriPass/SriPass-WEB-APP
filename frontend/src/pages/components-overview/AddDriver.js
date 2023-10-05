@@ -17,6 +17,7 @@ const AddDriver = () => {
   });
 
   const [routes, setRoutes] = useState([]); // State variable to store route data
+  const [vehicles, setVehicles] = useState([]); // State variable to store vehicle data
 
   useEffect(() => {
     // Fetch the route data when the component mounts
@@ -27,6 +28,16 @@ const AddDriver = () => {
       })
       .catch((error) => {
         console.error('Error fetching routes:', error);
+      });
+
+    // Fetch the vehicle data when the component mounts
+    fetch('https://sripass.onrender.com/api/bus/')
+      .then((response) => response.json())
+      .then((data) => {
+        setVehicles(data); // Update the vehicles state with the fetched data
+      })
+      .catch((error) => {
+        console.error('Error fetching vehicles:', error);
       });
   }, []); // Empty dependency array ensures this effect runs once when the component mounts
 
@@ -174,16 +185,21 @@ const AddDriver = () => {
           </FormControl>
         </div>
         <div style={{ marginBottom: '16px' }}>
-          <FormControl fullWidth variant="outlined" style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="assignedVehicle">Assigned Vehicle</InputLabel>
-            <OutlinedInput
+            <Select
               id="assignedVehicle"
-              type="text"
               value={values.assignedVehicle}
               onChange={handleChange('assignedVehicle')}
-              required
               label="Assigned Vehicle"
-            />
+              required
+            >
+              {vehicles.map((vehicle) => (
+                <MenuItem key={vehicle.licensePlateNumber} value={vehicle.licensePlateNumber}>
+                  {vehicle.licensePlateNumber}
+                </MenuItem>
+              ))}
+            </Select>
           </FormControl>
         </div>
         {/* Apply width style to the button */}
