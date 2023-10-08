@@ -22,7 +22,6 @@ const AddBusSchedule = () => {
     EndDate: '',
     StartTime: '',
     EndTime: '',
-    VehicalNo: ''
   });
 
   const [driverOptions, setDriverOptions] = useState([]);
@@ -102,7 +101,6 @@ const AddBusSchedule = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Data', values);
 
     // Include the date and time values in the values object
     const updatedValues = {
@@ -127,9 +125,6 @@ const AddBusSchedule = () => {
       if (!addResponse.ok) {
         throw new Error('API request failed');
       }
-
-      const data = await addResponse.json();
-      console.log('New payment added:', data);
 
       message.open({
         key,
@@ -265,12 +260,11 @@ const AddBusSchedule = () => {
         </FormControl>
 
          <FormControl fullWidth margin="normal" variant="outlined" style={{ marginBottom: '20px' }}>
-          <InputLabel htmlFor="vehicalNo">Vehicle No</InputLabel>
+          <InputLabel htmlFor="vehicalNo">License Plate No</InputLabel>
           <Select
             label="Vehicle No"
             id="vehicalNo"
-            value={values.VehicleNo}
-            onChange={handleChange('VehicleNo')}
+            onChange={handleChange('licensePlateNumber')}
             required
           >
             {/* Map the fetched vehicle options to MenuItem components */}
