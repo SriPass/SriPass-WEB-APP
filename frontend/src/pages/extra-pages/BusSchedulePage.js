@@ -6,8 +6,8 @@ import {
 
 } from '@mui/material';
 import MainCard from 'components/MainCard';
-import PassengerTable from 'pages/dashboard/PassengerTable';
 import AddBusSchedule from 'pages/components-overview/AddBusSchedule';
+import BusScheduleTable from 'pages/dashboard/BusScheduleTable';
 
 const BusSchedulePage = () => {
 
@@ -22,7 +22,7 @@ const BusSchedulePage = () => {
         </Grid>
         <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
           <Box sx={{ pt: 1, pr: 2 }}>
-            <PassengerTable />
+            <BusScheduleTable/>
           </Box>
         </MainCard>
 
