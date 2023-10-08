@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Grid,
+ 
   TextField,
   InputAdornment,
   Button,
@@ -18,7 +18,7 @@ import {
   TablePagination,
   CircularProgress,
 } from '@mui/material';
-import MainCard from 'components/MainCard';
+
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
@@ -135,11 +135,7 @@ const BusScheduleTable = () => {
   const filteredData = data.filter((item) => item.RouteNo.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-      <Grid item xs={12} md={7} lg={8}>
-        <MainCard content={false} sx={{ mt: 1.5, padding: 2 }}>
-          <Box sx={{ pt: 1, pr: 2 }}>
-            <Box>
+    <div>
               {loading ? (
                 <Box
                   display="flex"
@@ -301,12 +297,8 @@ const BusScheduleTable = () => {
                   </Dialog>
                 </>
               )}
-            </Box>
-          </Box>
-        </MainCard>
-      </Grid>
-     
-    </Grid>
+            
+          </div>
   );
 };
 
