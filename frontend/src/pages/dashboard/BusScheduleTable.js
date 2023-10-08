@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
- 
+
   TextField,
   InputAdornment,
   Button,
@@ -70,7 +70,7 @@ const BusScheduleTable = () => {
       EndDate: row.EndDate,
       StartTime: row.StartTime,
       EndTime: row.EndTime,
-      VehicleNo: row.VehicleNo,
+      LicensePlateNumber: row.licensePlateNumber,
     });
     setIsEditModalOpen(true);
   };
@@ -136,169 +136,169 @@ const BusScheduleTable = () => {
 
   return (
     <div>
-              {loading ? (
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  height="300px"
-                >
-                  <CircularProgress />
-                </Box>
-              ) : (
-                <>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginTop: '20px',
-                      marginBottom: '30px'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <TextField
-                        label="Search"
+      {loading ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height="300px"
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: '20px',
+              marginBottom: '30px'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <TextField
+                label="Search"
+                variant="outlined"
+                size="small"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </div>
+          </div>
+
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Route No</TableCell>
+                  <TableCell>Start Date</TableCell>
+                  <TableCell>End Date</TableCell>
+                  <TableCell>Start Time</TableCell>
+                  <TableCell>End Time</TableCell>
+                  <TableCell>License Plate No</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                  <TableRow key={row._id}>
+                    <TableCell align="left">
+                      <Chip
+                        avatar={
+                          <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
+                        }
+                        label={row.RouteNo}
+                      />
+                    </TableCell>
+                    <TableCell>{row.StartDate}</TableCell>
+                    <TableCell>{row.EndDate}</TableCell>
+                    <TableCell>{row.StartTime}</TableCell>
+                    <TableCell>{row.EndTime}</TableCell>
+                    <TableCell>{row.licensePlateNumber}</TableCell>
+                    <TableCell align="left">
+                      <Button
                         variant="outlined"
-                        size="small"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <SearchIcon />
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Route No</TableCell>
-                          <TableCell>Start Date</TableCell>
-                          <TableCell>End Date</TableCell>
-                          <TableCell>Start Time</TableCell>
-                          <TableCell>End Time</TableCell>
-                          <TableCell>Vehicle No</TableCell>
-                          <TableCell>Actions</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                          <TableRow key={row._id}>
-                            <TableCell align="left">
-                              <Chip
-                                avatar={
-                                  <Avatar style={{ backgroundColor: 'red', color: 'white' }}>R</Avatar>
-                                }
-                                label={row.RouteNo}
-                              />
-                            </TableCell>
-                            <TableCell>{row.StartDate}</TableCell>
-                            <TableCell>{row.EndDate}</TableCell>
-                            <TableCell>{row.StartTime}</TableCell>
-                            <TableCell>{row.EndTime}</TableCell>
-                            <TableCell>{row.VehicleNo}</TableCell>
-                            <TableCell align="left">
-                              <Button
-                                variant="outlined"
-                                color="error"
-                                onClick={() => handleDelete(row)}
-                                style={{ marginRight: '8px' }}
-                              >
-                                Delete
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => handleEdit(row)}
-                              >
-                                Edit
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-
-                  <TablePagination
-                    rowsPerPageOptions={[5]}
-                    component="div"
-                    count={filteredData.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-
-                  <Dialog style={{}} open={isEditModalOpen} onClose={handleCloseEditModal}>
-                    <DialogTitle>Edit Row</DialogTitle>
-                    <DialogContent>
-                      <TextField
-                        label="Route No"
-                        style={{ margin: '20px' }}
-                        value={editedData.RouteNo}
-                        onChange={(e) => handleFieldChange(e, 'RouteNo')}
-                      />
-                      <TextField
-                        label="Start Date"
-                        style={{ margin: '20px' }}
-                        value={editedData.StartDate}
-                        onChange={(e) => handleFieldChange(e, 'StartDate')}
-                      />
-                      <TextField
-                        label="End Date"
-                        style={{ margin: '20px' }}
-                        value={editedData.EndDate}
-                        onChange={(e) => handleFieldChange(e, 'EndDate')}
-                      />
-                      <TextField
-                        label="Start Time"
-                        style={{ margin: '20px' }}
-                        value={editedData.StartTime}
-                        onChange={(e) => handleFieldChange(e, 'StartTime')}
-                      />
-                      <TextField
-                        label="End Time"
-                        style={{ margin: '20px' }}
-                        value={editedData.EndTime}
-                        onChange={(e) => handleFieldChange(e, 'EndTime')}
-                      />
-                      <TextField
-                        label="Vehicle No"
-                        style={{ margin: '20px' }}
-                        value={editedData.VehicleNo}
-                        onChange={(e) => handleFieldChange(e, 'VehicleNo')}
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleCloseEditModal}>Cancel</Button>
-                      <Button onClick={handleSaveEdit}>Save</Button>
-                    </DialogActions>
-                  </Dialog>
-
-                  {/* Delete Confirmation Modal */}
-                  <Dialog open={isDeleteModalOpen} onClose={cancelDelete}>
-                    <DialogTitle>Confirm Deletion</DialogTitle>
-                    <DialogContent>
-                      Are you sure you want to delete this item?
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={cancelDelete}>Cancel</Button>
-                      <Button onClick={confirmDelete} color="error">
+                        color="error"
+                        onClick={() => handleDelete(row)}
+                        style={{ marginRight: '8px' }}
+                      >
                         Delete
                       </Button>
-                    </DialogActions>
-                  </Dialog>
-                </>
-              )}
-            
-          </div>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleEdit(row)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <TablePagination
+            rowsPerPageOptions={[5]}
+            component="div"
+            count={filteredData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+
+          <Dialog style={{}} open={isEditModalOpen} onClose={handleCloseEditModal}>
+            <DialogTitle>Edit Row</DialogTitle>
+            <DialogContent>
+              <TextField
+                label="Route No"
+                style={{ margin: '20px' }}
+                value={editedData.RouteNo}
+                onChange={(e) => handleFieldChange(e, 'RouteNo')}
+              />
+              <TextField
+                label="Start Date"
+                style={{ margin: '20px' }}
+                value={editedData.StartDate}
+                onChange={(e) => handleFieldChange(e, 'StartDate')}
+              />
+              <TextField
+                label="End Date"
+                style={{ margin: '20px' }}
+                value={editedData.EndDate}
+                onChange={(e) => handleFieldChange(e, 'EndDate')}
+              />
+              <TextField
+                label="Start Time"
+                style={{ margin: '20px' }}
+                value={editedData.StartTime}
+                onChange={(e) => handleFieldChange(e, 'StartTime')}
+              />
+              <TextField
+                label="End Time"
+                style={{ margin: '20px' }}
+                value={editedData.EndTime}
+                onChange={(e) => handleFieldChange(e, 'EndTime')}
+              />
+              <TextField
+                label="License Plate Number"
+                style={{ margin: '20px' }}
+                value={editedData.LicensePlateNumber}
+                onChange={(e) => handleFieldChange(e, 'LicensePlateNumber')}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseEditModal}>Cancel</Button>
+              <Button onClick={handleSaveEdit}>Save</Button>
+            </DialogActions>
+          </Dialog>
+
+          {/* Delete Confirmation Modal */}
+          <Dialog open={isDeleteModalOpen} onClose={cancelDelete}>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogContent>
+              Are you sure you want to delete this item?
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={cancelDelete}>Cancel</Button>
+              <Button onClick={confirmDelete} color="error">
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
+
+    </div>
   );
 };
 
