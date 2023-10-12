@@ -172,4 +172,22 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// GET - Get a specific BusRoute by RouteNo and include destinations
+router.get('/destinations/:routeNo', async (req, res) => {
+  const routeNo = req.params.routeNo;
+
+  try {
+    const busRoute = await BusRoute.findOne({ RouteNo: routeNo });
+    if (!busRoute) {
+      res.status(404).json({ message: 'BusRoute not found' });
+    } else {
+      res.json(busRoute.destinations);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 module.exports = router;
