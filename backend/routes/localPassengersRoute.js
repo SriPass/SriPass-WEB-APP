@@ -4,6 +4,36 @@ const express = require('express');
 const router = express.Router();
 const LocalPassengers = require('../models/localPassengersModel');
 
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find a driver with the given email and password
+    const passenger = await LocalPassengers.findOne({ email, password });
+
+    if (passenger) {
+      // Create a response object with the passenger's name, email, and ID
+      const currentPassenger = {
+        name: passenger.firstName,
+        passengerId: passenger.passengerId,
+        email: passenger.email,
+        id: passenger._id,
+      };
+
+      // Send the response object back to the client
+      res.send(currentPassenger);
+    } else {
+      // If no passenger was found, send an error message
+      res.status(401).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    // If an error occurred, send a generic error message
+    res.status(500).json({ message: "Something went wrong" });
+  }
+});
+
+
+
 // POST - Create a new LocalPassenger
 router.post('/', async (req, res) => {
   try {

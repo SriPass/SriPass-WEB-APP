@@ -1,17 +1,50 @@
+// const mongoose = require("mongoose");
+
+// var mongoURL = 'mongodb+srv://Imesh:Imesh1234@cluster0.ygreoof.mongodb.net/sripass'
+
+// mongoose.connect(mongoURL, { useUnifiedTopology: true, useNewUrlParser: true })
+
+// var db = mongoose.connection
+
+// db.on('connected', () => {
+//     console.log(`Mongodb Connection Success!`);
+// })
+
+// db.on('error', () => {
+//     console.log(`Mongodb Connection failed!`);
+// })
+
+// module.exports = mongoose
+
 const mongoose = require("mongoose");
+// encapsulated the MongoDB connection logic within a Database class
+class Database {
+    constructor() {
+        // Check if an instance of the Database class already exists
 
-var mongoURL = 'mongodb+srv://Imesh:Imesh1234@cluster0.ygreoof.mongodb.net/sripass'
+        if (!Database.instance) {
+            this.mongoURL = 'mongodb+srv://Imesh:Imesh1234@cluster0.ygreoof.mongodb.net/sripass';
 
-mongoose.connect(mongoURL, { useUnifiedTopology: true, useNewUrlParser: true })
+            // Establish the MongoDB connection using Mongoose
+            mongoose.connect(this.mongoURL, { useUnifiedTopology: true, useNewUrlParser: true });
 
-var db = mongoose.connection
+            // Access the MongoDB connection object
+            this.db = mongoose.connection;
 
-db.on('connected', () => {
-    console.log(`Mongodb Connection Success!`);
-})
+            this.db.on('connected', () => {
+                console.log(`MongoDB Connection Success!`);
+            });
 
-db.on('error', () => {
-    console.log(`Mongodb Connection failed!`);
-})
+            this.db.on('error', (err) => {
+                console.error(`MongoDB Connection failed: ${err}`);
+            });
 
-module.exports = mongoose
+            // Create an instance of the Database class
+            Database.instance = this;
+        }
+        // Return the instance of the Database class
+        return Database.instance;
+    }
+}
+// Export a single instance of the Database class to be used throughout the MERN app
+module.exports = new Database();

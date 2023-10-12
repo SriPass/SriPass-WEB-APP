@@ -83,4 +83,24 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+
+router.get('/id/:passengerId', async (req, res) => {
+  const PassengerID = req.params.passengerId;
+
+  try {
+    const travelHistoryRecords = await PassengerTravelHistory.find({ PassengerID });
+
+    if (travelHistoryRecords.length === 0) {
+      res.status(404).json({ message: 'No travel history records found for the passengerId' });
+    } else {
+      res.json(travelHistoryRecords);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 module.exports = router;
