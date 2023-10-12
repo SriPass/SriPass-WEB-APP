@@ -110,10 +110,11 @@ function TravelHistoryTable() {
             <TableHead>
               <TableRow>
                 <TableCell>Passenger ID</TableCell>
-                <TableCell>Duration</TableCell>
-                <TableCell>Distance</TableCell>
-                <TableCell>Cost</TableCell>
                 <TableCell>Route Number</TableCell>
+                <TableCell>Route</TableCell>
+                <TableCell>Time</TableCell>
+                <TableCell>Date </TableCell>
+                <TableCell>Cost (LKR) </TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -121,10 +122,11 @@ function TravelHistoryTable() {
               {filteredTravelHistory.slice(startIndex, endIndex).map((record) => (
                 <TableRow key={record._id}>
                   <TableCell>{record.PassengerID}</TableCell>
-                  <TableCell>{record.duration}</TableCell>
-                  <TableCell>{record.distance}</TableCell>
-                  <TableCell>{record.cost}</TableCell>
-                  <TableCell>{record.RouteNo}</TableCell>
+                  <TableCell>{record.routeNo}</TableCell>
+                  <TableCell>{record.route}</TableCell>
+                  <TableCell>{record.time}</TableCell>
+                  <TableCell>{record.date}</TableCell>
+                  <TableCell>LKR {record.cost}</TableCell>
                   <TableCell>
                     <Button
                       variant="outlined"
