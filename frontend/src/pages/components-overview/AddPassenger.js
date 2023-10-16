@@ -13,6 +13,8 @@ const AddPassenger = () => {
     passengerId: '',
     firstName: '',
     lastName: '',
+    email:'',
+    password:'',
     contactNumber: '',
     address: '',
   });
@@ -140,6 +142,32 @@ const AddPassenger = () => {
               onChange={handleChange('lastName')}
               required
               label="Last Name"
+            />
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="lastName">Email</InputLabel>
+            <OutlinedInput
+              id="email"
+              type="email"
+              value={values.email}
+              onChange={handleChange('email')}
+              required
+              label="Email"
+            />
+          </FormControl>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="lastName">Password</InputLabel>
+            <OutlinedInput
+              id="password"
+              type="password"
+              value={values.password}
+              onChange={handleChange('password')}
+              required
+              label="Password"
             />
           </FormControl>
         </div>
