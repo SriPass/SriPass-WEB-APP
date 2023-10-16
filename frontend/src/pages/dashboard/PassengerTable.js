@@ -224,6 +224,7 @@ function PassengerTable() {
   const endIndex = startIndex + rowsPerPage;
 
   const displayedPassengers = passengers.slice(startIndex, endIndex);
+  
 
   return (
     <div>
@@ -246,6 +247,8 @@ function PassengerTable() {
                 <TableCell>Passenger ID</TableCell>
                 <TableCell>First Name</TableCell>
                 <TableCell>Last Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Password</TableCell>
                 <TableCell>Contact Number</TableCell>
                 <TableCell>Address</TableCell>
                 <TableCell>Balance (LKR)</TableCell>
@@ -259,6 +262,10 @@ function PassengerTable() {
                   <TableCell>{passenger.passengerId}</TableCell>
                   <TableCell>{passenger.firstName}</TableCell>
                   <TableCell>{passenger.lastName}</TableCell>
+                  <TableCell>{passenger.email}</TableCell>
+                  <TableCell>
+  {passenger.password.slice(0, -1).replace(/./g, '*') + passenger.password.slice(-1)}
+</TableCell>
                   <TableCell>{passenger.contactNumber}</TableCell>
                   <TableCell>{passenger.address}</TableCell>
                   <TableCell style={{ padding: '8px' }}>
