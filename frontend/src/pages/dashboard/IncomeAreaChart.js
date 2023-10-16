@@ -51,7 +51,7 @@ const IncomeAreaChart = () => {
         if (Array.isArray(data)) {
           // Group data by 'Route No' and calculate total cost for each route
           const groupedData = data.reduce((acc, item) => {
-            const routeNo = item.RouteNo;
+            const routeNo = item.routeNo;
             const cost = item.cost;
 
             if (!acc[routeNo]) {
