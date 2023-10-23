@@ -63,6 +63,13 @@ Ready to get started? Head to our [SriPass Web App](https://sripass.onrender.com
   cd frontend
   npm start
   ```
+  
+**Start the Unit Testing:**
+- In the `backend` directory, run:
+  ```
+  cd backend
+  npm run test:modelname-model
+  ```
 
 
 Enjoy using SriPass for efficient public transport management!
