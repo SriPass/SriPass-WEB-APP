@@ -86,6 +86,6 @@ Let's make public transportation more efficient and enjoyable for everyone! 🚌
 
 ## License
 
-SriPass is licensed under the [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE). See the [LICENSE](LICENSE) file for details.
+SriPass is licensed under the [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT). See the [LICENSE](LICENSE) file for details.
 
 
