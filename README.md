@@ -1,6 +1,6 @@
 <h1 align="center">SriPass - Your Ultimate Public Transport Management System</h1>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/SriPass/SriPass-WEB-APP-BACKEND/main/logo.png" alt="SriPass Logo" />
+  <img src="https://github.com/SriPass/SriPass-WEB-APP/blob/dev/logov2.png" alt="SriPass Logo" />
 </p>
 
 <p align="center">
