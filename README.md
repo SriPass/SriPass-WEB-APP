@@ -53,12 +53,14 @@ Ready to get started? Head to our [SriPass Web App](https://sripass.onrender.com
 **Start the Backend:**
 - In the `backend` directory, run:
   ```
+  cd backend
   npm start
   ```
 
 **Start the Frontend:**
 - In the `frontend` directory, run:
   ```
+  cd frontend
   npm start
   ```
 
