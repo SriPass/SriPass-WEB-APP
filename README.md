@@ -34,10 +34,10 @@ SriPass is built using the MERN stack (MongoDB, Express, React, and Node.js) for
 ## Meet the Developers 👩‍💻👨‍💻
 
 SriPass was brought to life by a talented team of developers:
-- [Darshi Bushhini](https://github.com/darshi-bushhini)
+- [Darshi Buddhini](https://github.com/darshibuddhini)
 - [Imesh Pasinda](https://github.com/imeshpasinda)
-- [Kimuthu Gamage](https://github.com/kimuthu-gamage)
-- [Dinithi Mendis](https://github.com/dinithi-mendis)
+- [Kimuthu Gamage](https://github.com/kimuthuug)
+- [Dinithi Mendis](https://github.com/dinithi27)
 
 ## Get Started
 
