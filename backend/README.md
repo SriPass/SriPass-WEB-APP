@@ -26,5 +26,5 @@ If you'd like to run the backend locally for development or testing purposes, fo
 2. Install Node.js and MongoDB if you haven't already.
 3. Install the required dependencies by running `npm install` in the project directory.
 4. Set up your MongoDB database and update the database connection configuration in `db.js`.
-5. Run the backend server using `npm run dev`.
-6. For unit testing, use `npm run test:addmodelname-model`.
+5. Run the backend server using `npm start`.
+6. For unit testing, use `npm run test:modelname-model`.
