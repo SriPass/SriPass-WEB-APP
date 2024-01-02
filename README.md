@@ -31,6 +31,7 @@ SriPass is a powerful web application that simplifies public transport managemen
 
 SriPass is built using the MERN stack (MongoDB, Express, React, and Node.js) for a robust and dynamic application. The backend is deployed on [Render](https://render.com/), ensuring reliability and scalability.
 
+- **Frontend:** Deployed on [Netlify.com] [SriPass Frontend Application](https://sripass.netlify.app/)
 - **Backend:** Deployed on [Render.com] [SriPass Backend Application](https://sripass.onrender.com/)
 - **Mobile Application GitHub Repo** [SriPass Frontend Application](https://github.com/SriPass/SriPass-MOBILE-APP)
 
