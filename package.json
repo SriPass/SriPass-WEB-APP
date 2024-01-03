@@ -4,6 +4,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd client && npm install && npm run build"
+    "build": "cd frontend && npm install && npm run build"
   }
 }
