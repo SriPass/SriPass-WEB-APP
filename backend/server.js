@@ -121,7 +121,7 @@ app.get("/", (req, res) => {
         </head>
         <body>
             <div class="container">
-                <img class="logo" src="https://github.com/SriPass/SriPass-WEB-APP-BACKEND/blob/main/logo.png?raw=true" alt="Logo">
+                <img class="logo" src="https://github.com/SriPass/SriPass-WEB-APP/blob/dev/logo.png" alt="Logo">
                 <div class="title">SriPass Backend Server (c) 2023 SriPass</div>
                 <div class="status">Active</div>
                 <h5>Code Authors</h5>
